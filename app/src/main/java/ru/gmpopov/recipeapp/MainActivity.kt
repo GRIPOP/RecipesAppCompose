@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold { paddingValues ->
                     Text(
                         text = "RecipeApp",
-                        modifier = Modifier.padding(paddingValues),
+                        modifier = Modifier
+                            .padding(paddingValues)
+                        ,
                     )
                 }
             }
