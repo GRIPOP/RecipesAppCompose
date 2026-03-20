@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MaterialTheme {
+            RecipeAppTheme {
                 Scaffold { paddingValues ->
                     Text(
                         text = "RecipeApp",
