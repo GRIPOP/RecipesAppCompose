@@ -27,6 +27,7 @@ private val LightColorScheme = lightColorScheme(
     primary = PrimaryColor,
     onPrimary = Color.White,
     error = AccentColor,
+    onError = Color.White,
     tertiary = AccentBlue,
     tertiaryContainer = SliderTrackColor,
     background = BackgroundColor,
