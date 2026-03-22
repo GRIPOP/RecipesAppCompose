@@ -21,7 +21,10 @@ fun BottomNavigation(
     onCategoriesClick: () -> Unit,
     onFavoriteClick: () -> Unit,
 ) {
-    Row {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         Button(
             onClick = {},
             colors = ButtonDefaults.buttonColors(
@@ -30,8 +33,11 @@ fun BottomNavigation(
             ),
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .padding(horizontal = 10.dp)
-        ){}
+                .padding()
+                .weight(1f)
+        ){
+            Text("Категории")
+        }
 
         Spacer(modifier = Modifier.width(10.dp))
 
@@ -43,8 +49,10 @@ fun BottomNavigation(
             ),
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .padding(horizontal = 10.dp)
-        ) {}
+                .weight(1f)
+        ) {
+            Text("Избранное")
+        }
     }
 }
 
