@@ -33,7 +33,7 @@ fun BottomNavigation(
             ),
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .padding()
+                .padding(10.dp)
                 .weight(1f)
         ){
             Text("Категории")
@@ -49,6 +49,7 @@ fun BottomNavigation(
             ),
             shape = RoundedCornerShape(20.dp),
             modifier = Modifier
+                .padding(10.dp)
                 .weight(1f)
         ) {
             Text("Избранное")
