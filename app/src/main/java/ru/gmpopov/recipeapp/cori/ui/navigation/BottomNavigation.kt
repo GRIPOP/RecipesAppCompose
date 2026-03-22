@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.gmpopov.recipeapp.ui.theme.Dimens
 
 @Composable
 fun BottomNavigation(
@@ -31,15 +32,12 @@ fun BottomNavigation(
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 contentColor = MaterialTheme.colorScheme.onTertiary
             ),
-            shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .padding(10.dp)
+                .padding(Dimens.PaddingMain)
                 .weight(1f)
         ){
             Text("Категории")
         }
-
-        Spacer(modifier = Modifier.width(10.dp))
 
         Button(
             onClick = {},
@@ -47,9 +45,8 @@ fun BottomNavigation(
                 containerColor = MaterialTheme.colorScheme.error,
                 contentColor = MaterialTheme.colorScheme.onError
             ),
-            shape = RoundedCornerShape(20.dp),
             modifier = Modifier
-                .padding(10.dp)
+                .padding(Dimens.PaddingMain)
                 .weight(1f)
         ) {
             Text("Избранное")
