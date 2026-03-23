@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import ru.gmpopov.recipeapp.R
-import ru.gmpopov.recipeapp.ui.components.ScreenHeader
+import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 
 @Composable
 fun CategoriesScreen() {
