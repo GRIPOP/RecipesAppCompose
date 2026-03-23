@@ -1,4 +1,4 @@
-package ru.gmpopov.recipeapp.ui.components
+package ru.gmpopov.recipeapp.core.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
