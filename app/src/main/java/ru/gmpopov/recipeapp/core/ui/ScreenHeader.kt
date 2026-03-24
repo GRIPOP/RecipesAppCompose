@@ -26,10 +26,11 @@ fun ScreenHeader(imagePainter: Painter, contentDescription: String, title: Strin
             contentDescription = contentDescription,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
-        )
+
+            )
         Surface(
             modifier = Modifier
-                .align(Alignment.BottomStart)
+                .align(Alignment.BottomStart),
         ) {
             Text(title)
         }

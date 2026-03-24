@@ -1,4 +1,4 @@
-package ru.gmpopov.recipeapp.ui.navigation
+package ru.gmpopov.recipeapp.core.ui.navigation
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +22,7 @@ fun BottomNavigation(
             .fillMaxWidth()
     ) {
         Button(
-            onClick = {},
+            onClick = { onCategoriesClick() },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 contentColor = MaterialTheme.colorScheme.onTertiary
@@ -30,12 +30,12 @@ fun BottomNavigation(
             modifier = Modifier
                 .padding(Dimens.PaddingMain)
                 .weight(1f)
-        ){
+        ) {
             Text("Категории")
         }
 
         Button(
-            onClick = {},
+            onClick = { onFavoriteClick() },
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,
                 contentColor = MaterialTheme.colorScheme.onError
