@@ -9,6 +9,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ContentScale
@@ -29,7 +31,8 @@ fun ScreenHeader(imagePainter: Painter, contentDescription: String, title: Strin
         )
         Surface(
             modifier = Modifier
-                .align(Alignment.BottomStart)
+                .align(Alignment.BottomStart),
+            shape = MaterialTheme.shapes.medium
         ) {
             Text(title)
         }
