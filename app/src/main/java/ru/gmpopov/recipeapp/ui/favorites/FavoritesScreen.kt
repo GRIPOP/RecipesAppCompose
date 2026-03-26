@@ -1,4 +1,4 @@
-package ru.gmpopov.recipeapp.ui.categories
+package ru.gmpopov.recipeapp.ui.favorites
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -9,16 +9,16 @@ import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 
 @Composable
-fun CategoriesScreen(
+fun FavoritesScreen(
     modifier: Modifier = Modifier
 ) {
     Column {
         ScreenHeader(
-            painterResource(R.drawable.ic_launcher_foreground),
+            painterResource(R.drawable.bcg_favorites),
             "",
-            "Категории"
+            "Избранное"
         )
 
-        Text("Список категорий")
+        Text("Здесь будет список избранного")
     }
 }

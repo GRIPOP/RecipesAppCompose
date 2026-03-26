@@ -1,4 +1,4 @@
-package ru.gmpopov.recipeapp.ui.categories
+package ru.gmpopov.recipeapp.ui.recipes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -9,16 +9,16 @@ import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 
 @Composable
-fun CategoriesScreen(
+fun RecipesScreen(
     modifier: Modifier = Modifier
 ) {
     Column {
         ScreenHeader(
-            painterResource(R.drawable.ic_launcher_foreground),
-            "",
-            "Категории"
+            imagePainter = painterResource(R.drawable.ic_launcher_background),
+            contentDescription = "",
+            title = "Название блюда"
         )
 
-        Text("Список категорий")
+        Text("Скоро здесь будет список рецептов")
     }
 }
