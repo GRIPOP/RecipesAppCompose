@@ -1,10 +1,12 @@
 package ru.gmpopov.recipeapp.data.repository
 
 import ru.gmpopov.recipeapp.data.model.CategoryDto
+import ru.gmpopov.recipeapp.data.model.IngredientDto
+import ru.gmpopov.recipeapp.data.model.RecipeDto
 
 object RecipesRepositoryStub {
 
-    private val categories = listOf(
+    private val categories: List<CategoryDto> = listOf(
         CategoryDto(
             0,
             "Бургеры",
@@ -43,22 +45,131 @@ object RecipesRepositoryStub {
         ),
     )
 
-    private val burgerRecipes = listOf(
-        "Классический гамбургер",
-        "Чизбургер",
-        "Бургер с грибами и сыром",
-        "Бургер с курицей и авокадо",
-        "Бургер с рыбой",
-        "Бургер с беконом",
-        "Веганский бургер",
-        "Острый гамбургер"
-    )
+    private val burgerRecipes: List<RecipeDto> =
+        listOf(
+            RecipeDto(
+                0,
+                "Классический бургер с говядиной",
+                listOf<IngredientDto>
+                    (
+                    IngredientDto(
+                        "0.5",
+                        "кг",
+                        "говяжий фарш",
+                    ),
+                    IngredientDto(
+                        "1.0",
+                        "шт",
+                        "луковица, мелко нарезанная"
+                    ),
+                    IngredientDto(
+                        "2.0",
+                        "зубч",
+                        "чеснок, измельченный",
+                    ),
+                    IngredientDto(
+                        "4.0",
+                        "шт",
+                        "булочки для бургера",
+                    ),
+                    IngredientDto(
+                        "4.0",
+                        "шт",
+                        "листа салата",
+                    ),
+                    IngredientDto(
+                        "1.0",
+                        "шт",
+                        "помидор, нарезанный кольцами",
+                    ),
+                    IngredientDto(
+                        "2.0",
+                        "ст. л.",
+                        "горчица",
+                    ),
+                    IngredientDto(
+                        "2.0",
+                        "ст. л.",
+                        "кетчуп",
+                    ),
+                    IngredientDto(
+                        "по вкусу",
+                        "",
+                        "соль и черный перец"
+                    ),
+                ),
 
-    fun getCategories(): List<RecipeDto> {
-        TODO()
+
+                listOf(
+                    "1. В глубокой миске смешайте говяжий фарш, лук, чеснок, соль и перец. Разделите фарш на 4 равные части и сформируйте котлеты.",
+                    "2. Разогрейте сковороду на среднем огне. Обжаривайте котлеты с каждой стороны в течение 4-5 минут или до желаемой степени прожарки.",
+                    "3. В то время как котлеты готовятся, подготовьте булочки. Разрежьте их пополам и обжарьте на сковороде до золотистой корочки.",
+                    "4. Смазать нижние половинки булочек горчицей и кетчупом, затем положите лист салата, котлету, кольца помидора и закройте верхней половинкой булочки.",
+                    "5. Подавайте бургеры горячими с картофельными чипсами или картофельным пюре."
+                ),
+                "burger-hamburger.png",
+            ),
+            RecipeDto(
+                1,
+                "Чизбургер с беконом",
+                listOf<IngredientDto>
+                    (
+                    IngredientDto(
+                        "0.4",
+                        "кг",
+                        "говяжий фарш"
+                    ),
+                    IngredientDto(
+                        "4.0",
+                        "шт",
+                        "ломтика бекона"
+                    ),
+                    IngredientDto(
+                        "4.0",
+                        "шт",
+                        "ломтика сыра чеддер",
+                    ),
+                    IngredientDto(
+                        "4.0",
+                        "шт",
+                        "булочки для бургера",
+                    ),
+                    IngredientDto(
+                        "1.0",
+                        "шт",
+                        "помидор, нарезанный",
+                    ),
+                    IngredientDto(
+                        "по вкусу",
+                        "",
+                        "майонез и кетчуп",
+                    ),
+                ),
+
+                listOf(
+                    "1. Обжарьте бекон на сковороде до хрустящей корочки, отложите на бумажное полотенце.",
+                    "2. Сформируйте из фарша 4 котлеты, обжарьте с каждой стороны по 4 минуты.",
+                    "3. За минуту до готовности положите на каждую котлету по ломтику сыра, чтобы он расплавился.",
+                    "4. Соберите бургер: булочка, майонез, котлета с сыром, бекон, помидор, кетчуп.",
+                    "5. Подавайте горячими."
+                ),
+                "burger-cheeseburger.png",
+            ),
+        )
+
+    fun getCategories(): List<CategoryDto> {
+        return categories
     }
 
-    fun getRecipesByCategories(): List<RecipeDto> {
-        TODO()
+    fun getRecipesByCategoryId(categoryId: Int): List<RecipeDto> {
+        return when (categoryId) {
+            0 -> burgerRecipes
+            1 -> emptyList()
+            2 -> emptyList()
+            3 -> emptyList()
+            4 -> emptyList()
+            5 -> emptyList()
+            else -> emptyList()
+        }
     }
 }
