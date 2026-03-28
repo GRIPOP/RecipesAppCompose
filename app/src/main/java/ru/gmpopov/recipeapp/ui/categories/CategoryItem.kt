@@ -25,6 +25,7 @@ fun CategoryItem(
     modifier: Modifier = Modifier,
 ) {
     Card(
+        onClick = onClick,
         modifier = modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(Dimens.cornerRadius),
@@ -38,7 +39,7 @@ fun CategoryItem(
                 .aspectRatio(Dimens.CategoryImageAspectRatio),
             contentScale = ContentScale.Crop,
             placeholder = painterResource(R.drawable.ic_launcher_foreground),
-                    error = painterResource(R.drawable.ic_launcher_foreground)
+            error = painterResource(R.drawable.ic_launcher_foreground)
 
         )
 

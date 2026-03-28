@@ -1,26 +1,46 @@
 package ru.gmpopov.recipeapp.ui.categories
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
+import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
+import ru.gmpopov.recipeapp.ui.categories.model.toUiModel
+import ru.gmpopov.recipeapp.ui.theme.Dimens
 
 @Composable
 fun CategoriesScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCategoryClick: (Int) -> Unit,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
     ) {
         ScreenHeader(
-            painterResource(R.drawable.bcg_categories),
+            painterResource(R.drawable.ic_launcher_foreground),
             "",
             "Категории"
         )
 
-        Text("Список категорий")
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(Dimens.PaddingMain),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
+            verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain)
+        ) {
+            items(RecipesRepositoryStub.getCategories().map { it.toUiModel() }) { category ->
+                CategoryItem(
+                    category = category,
+                    onClick = { onCategoryClick(category.id) },
+                )
+            }
+        }
     }
 }
