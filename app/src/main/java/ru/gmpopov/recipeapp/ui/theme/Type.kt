@@ -53,10 +53,10 @@ val recipesAppTypography = Typography(
     ),
 
     titleMedium = TextStyle(
-        lineHeight = 19.sp,
+        lineHeight = 16.sp,
         fontFamily = montserratAlternatesFontFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
+        fontSize = 14.sp,
     ),
 
     bodyMedium = TextStyle(
