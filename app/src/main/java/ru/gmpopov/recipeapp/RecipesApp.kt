@@ -14,37 +14,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import ru.gmpopov.recipeapp.core.ui.navigation.BottomNavigation
+import ru.gmpopov.recipeapp.ui.categories.CategoriesScreen
+import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
+import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 @Preview
 @Composable
 fun RecipesApp() {
     RecipeAppTheme {
-        var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
+        var currentScreen by remember { mutableStateOf(ScreenId.RECIPES) }
         Scaffold(
             content = { paddingValues ->
                 when (currentScreen) {
                     ScreenId.CATEGORIES -> {
-                        Box(contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .padding(paddingValues)
-                                .fillMaxSize()
-                            ) {
-                            Text(
-                                text = "Категории",
-                            )
-                        }
+                        CategoriesScreen(
+                            modifier = Modifier.padding(paddingValues)
+                        )
                     }
 
                     ScreenId.FAVORITES -> {
-                        Box(contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .padding(paddingValues)
-                                .fillMaxSize()) {
-                            Text(
-                                text = "Избранное",
-                            )
-                        }
+                        FavoritesScreen(
+                            modifier = Modifier.padding(paddingValues)
+
+                        )
+                    }
+
+                    ScreenId.RECIPES -> {
+                        RecipesScreen(
+                            modifier = Modifier.padding(paddingValues)
+                        )
                     }
                 }
             },
