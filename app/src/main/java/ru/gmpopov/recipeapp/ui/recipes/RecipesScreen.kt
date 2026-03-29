@@ -12,7 +12,9 @@ import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 fun RecipesScreen(
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         ScreenHeader(
             imagePainter = painterResource(R.drawable.ic_launcher_background),
             contentDescription = "",

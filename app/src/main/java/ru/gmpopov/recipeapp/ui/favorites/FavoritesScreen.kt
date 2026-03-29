@@ -12,7 +12,9 @@ import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 fun FavoritesScreen(
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         ScreenHeader(
             painterResource(R.drawable.bcg_favorites),
             "",

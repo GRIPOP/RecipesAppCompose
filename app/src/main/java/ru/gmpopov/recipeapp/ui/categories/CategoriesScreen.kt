@@ -12,7 +12,9 @@ import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 fun CategoriesScreen(
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier,
+    ) {
         ScreenHeader(
             painterResource(R.drawable.ic_launcher_foreground),
             "",
