@@ -19,7 +19,7 @@ import ru.gmpopov.recipeapp.ui.theme.Dimens
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
-    onCategoryClick: (Int) -> Unit,
+    onCategoryClick: (Int, String) -> Unit,
 ) {
     val categories = remember { RecipesRepositoryStub.getCategories().map { it.toUiModel() } }
 
@@ -42,7 +42,12 @@ fun CategoriesScreen(
             items(categories, key = { it.id }) { category ->
                 CategoryItem(
                     category = category,
-                    onClick = { onCategoryClick(category.id) },
+                    onClick = {
+                        onCategoryClick(
+                            category.id,
+                            category.title
+                        )
+                    },
                 )
             }
         }
