@@ -27,7 +27,6 @@ fun BottomNavigation(
             .fillMaxWidth()
             .navigationBarsPadding()
             .padding(horizontal = Dimens.PaddingMain)
-
     ) {
         Button(
             onClick = { onCategoriesClick() },
