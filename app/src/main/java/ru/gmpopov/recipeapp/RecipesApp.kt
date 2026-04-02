@@ -3,12 +3,15 @@ package ru.gmpopov.recipeapp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import ru.gmpopov.recipeapp.core.ui.navigation.BottomNavigation
+import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
+import ru.gmpopov.recipeapp.navigation.Destination
 import ru.gmpopov.recipeapp.ui.categories.CategoriesScreen
 import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
 import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
@@ -16,46 +19,58 @@ import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 @Composable
 fun RecipesApp() {
-    var selectedCategoryId by remember { mutableStateOf<Int?>(null) }
-    var selectedCategoryTitle by remember { mutableStateOf("") }
-    var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
-
     RecipeAppTheme {
+        val navController = rememberNavController()
+
         Scaffold(
             content = { paddingValues ->
-                when (currentScreen) {
-                    ScreenId.CATEGORIES -> {
+                NavHost(
+                    navController = navController,
+                    startDestination = Destination.Categories.route,
+                ) {
+                    composable(route = Destination.Categories.route) {
                         CategoriesScreen(
                             modifier = Modifier.padding(paddingValues),
-                            onCategoryClick = { categoryId, categoryTitle ->
-                                selectedCategoryId = categoryId
-                                selectedCategoryTitle = categoryTitle
-                                currentScreen = ScreenId.RECIPES
+                            onCategoryClick = { categoryId, _ ->
+                                navController.navigate(Destination.Recipes.createRoute(categoryId))
                             },
                         )
                     }
 
-                    ScreenId.FAVORITES -> {
+                    composable(route = Destination.Favorites.route) {
                         FavoritesScreen(
-                            modifier = Modifier.padding(paddingValues)
-
+                            modifier = Modifier.padding(paddingValues),
                         )
                     }
 
-                    ScreenId.RECIPES -> {
+                    composable(
+                        route = Destination.Recipes.route,
+                        arguments = listOf(navArgument("categoryId") { type = NavType.IntType }),
+                    ) { backStackEntry ->
+                        val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         RecipesScreen(
-                            categoryId = selectedCategoryId ?: error("Category ID is required"),
-                            categoryTitle = selectedCategoryTitle,
-                            onRecipeClick = {},
+                            categoryId = categoryId,
+                            categoryTitle = RecipesRepositoryStub.getCategories()
+                                .find { it.id == categoryId }?.title ?: "",
                             modifier = Modifier.padding(paddingValues),
+                            onRecipeClick = {}
                         )
                     }
                 }
             },
             bottomBar = {
                 BottomNavigation(
-                    { currentScreen = ScreenId.CATEGORIES },
-                    { currentScreen = ScreenId.FAVORITES })
+                    onCategoriesClick = {
+                        navController.navigate(Destination.Categories.route) {
+                            launchSingleTop = true
+                        }
+                    },
+                    onFavoriteClick = {
+                        navController.navigate(Destination.Favorites.route) {
+                            launchSingleTop = true
+                        }
+                    }
+                )
             }
         )
     }
