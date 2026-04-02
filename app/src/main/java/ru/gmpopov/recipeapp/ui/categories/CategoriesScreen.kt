@@ -16,7 +16,7 @@ fun CategoriesScreen(
         modifier = modifier,
     ) {
         ScreenHeader(
-            painterResource(R.drawable.ic_launcher_foreground),
+            painterResource(R.drawable.bcg_categories),
             "",
             "Категории"
         )
