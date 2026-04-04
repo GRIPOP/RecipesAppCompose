@@ -5,13 +5,11 @@ import ru.gmpopov.recipeapp.data.model.IngredientDto
 
 @Immutable
 data class IngredientUiModel(
-    val quantity: String,
-    val unitOfMeasure: String,
     val name: String,
+    val amount: String,
 )
 
 fun IngredientDto.toUiModel() = IngredientUiModel(
-    quantity = quantity,
-    unitOfMeasure = unitOfMeasure,
     name = description,
+    amount = "$quantity $unitOfMeasure"
 )
