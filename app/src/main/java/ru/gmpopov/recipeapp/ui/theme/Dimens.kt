@@ -16,7 +16,7 @@ object Dimens {
     val IconButtonSize = 40.dp
 
     // Скругление карточек
-    val cornerRadius = 8.dp
+    val СornerRadius = 8.dp
 
     // Тень карточек
     val CardElevation = 4.dp

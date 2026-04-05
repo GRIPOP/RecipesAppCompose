@@ -28,7 +28,7 @@ fun CategoryItem(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth(),
-        shape = RoundedCornerShape(Dimens.cornerRadius),
+        shape = RoundedCornerShape(Dimens.СornerRadius),
         elevation = CardDefaults.cardElevation(Dimens.CardElevation),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {

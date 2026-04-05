@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import ru.gmpopov.recipeapp.R
@@ -20,9 +21,12 @@ fun CategoriesScreen(
     modifier: Modifier = Modifier,
     onCategoryClick: (Int) -> Unit,
 ) {
+    val categories = remember { RecipesRepositoryStub.getCategories().map { it.toUiModel() } }
+
     Column(
         modifier = modifier
     ) {
+
         ScreenHeader(
             painterResource(R.drawable.ic_launcher_foreground),
             "",
@@ -35,7 +39,7 @@ fun CategoriesScreen(
             horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
             verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain)
         ) {
-            items(RecipesRepositoryStub.getCategories().map { it.toUiModel() }) { category ->
+            items(categories, key = { it.id }) { category ->
                 CategoryItem(
                     category = category,
                     onClick = { onCategoryClick(category.id) },
