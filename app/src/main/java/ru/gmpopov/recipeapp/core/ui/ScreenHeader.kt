@@ -17,7 +17,11 @@ import androidx.compose.ui.layout.ContentScale
 import ru.gmpopov.recipeapp.ui.theme.Dimens
 
 @Composable
-fun ScreenHeader(imagePainter: Painter, contentDescription: String, title: String) {
+fun ScreenHeader(
+    imagePainter: Painter,
+    contentDescription: String,
+    title: String
+) {
     Box(
         modifier = Modifier
             .height(Dimens.HeaderHeight)
