@@ -1,6 +1,7 @@
 package ru.gmpopov.recipeapp.ui.recipes
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -21,9 +22,16 @@ import ru.gmpopov.recipeapp.ui.recipes.model.toUiModel
 fun RecipesScreen(
     categoryId: Int,
     categoryTitle: String,
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
+
+    LaunchedEffect(categoryId) {
+        recipes = getRecipesByCategoryId(categoryId)
+            .map { dto -> dto.toUiModel() }
+    }
+
     Column(
         modifier = modifier,
     ) {
@@ -33,20 +41,18 @@ fun RecipesScreen(
             title = categoryTitle,
         )
 
-        LaunchedEffect(categoryId) {
-            recipes = getRecipesByCategoryId(categoryId)
-                .map { dto -> dto.toUiModel() }
-        }
-
-        LazyColumn {
-            items(recipes, key = {it.id}) { recipe ->
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            items(recipes, key = { it.id }) { recipe ->
                 RecipeItem(
                     recipe = recipe,
-                    onClick = {},
+                    onClick = { onRecipeClick(recipe.id) },
                     modifier = Modifier
+                        .fillMaxWidth()
                 )
             }
         }
     }
 }
-

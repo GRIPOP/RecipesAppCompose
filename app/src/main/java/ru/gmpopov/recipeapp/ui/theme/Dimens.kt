@@ -14,6 +14,7 @@ object Dimens {
 
     // Размеры элементов
     val IconButtonSize = 40.dp
+    val CategoryDescriptionHeight = 50.dp
 
     // Скругление карточек
     val СornerRadius = 8.dp

@@ -37,7 +37,7 @@ fun CategoriesScreen(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(Dimens.PaddingMain),
             horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
-            verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain)
+            verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
         ) {
             items(categories, key = { it.id }) { category ->
                 CategoryItem(

@@ -2,6 +2,7 @@ package ru.gmpopov.recipeapp.ui.categories
 
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.ui.categories.model.CategoryUiModel
@@ -53,7 +55,8 @@ fun CategoryItem(
 
         Text(
             modifier = Modifier
-                .padding(horizontal = Dimens.PaddingMedium, vertical = Dimens.PaddingMedium),
+                .padding(horizontal = Dimens.PaddingMedium, vertical = Dimens.PaddingMedium)
+                .height(Dimens.CategoryDescriptionHeight),
             text = category.description,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,

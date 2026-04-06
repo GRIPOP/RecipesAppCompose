@@ -23,8 +23,9 @@ import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 fun RecipesApp() {
     var selectedCategoryId by remember { mutableStateOf<Int?>(null) }
     var selectedCategoryTitle by remember { mutableStateOf("") }
+    var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
+
     RecipeAppTheme {
-        var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
         Scaffold(
             content = { paddingValues ->
                 when (currentScreen) {
@@ -50,7 +51,8 @@ fun RecipesApp() {
                         RecipesScreen(
                             categoryId = selectedCategoryId ?: error("Category ID is required"),
                             categoryTitle = selectedCategoryTitle,
-                            modifier = Modifier.padding(paddingValues)
+                            onRecipeClick = {},
+                            modifier = Modifier.padding(paddingValues),
                         )
                     }
                 }
