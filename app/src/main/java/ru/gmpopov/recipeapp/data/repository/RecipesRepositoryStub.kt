@@ -400,7 +400,6 @@ object RecipesRepositoryStub {
             ),
         )
 
-
     private val dessertRecipes: List<RecipeDto> =
         listOf(
             RecipeDto(
