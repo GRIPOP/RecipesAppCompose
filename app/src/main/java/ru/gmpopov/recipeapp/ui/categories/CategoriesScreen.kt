@@ -19,7 +19,7 @@ import ru.gmpopov.recipeapp.ui.theme.Dimens
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
-    onCategoryClick: (Int) -> Unit,
+    onCategoryClick: (Int, String) -> Unit,
 ) {
     val categories = remember { RecipesRepositoryStub.getCategories().map { it.toUiModel() } }
 
@@ -37,12 +37,17 @@ fun CategoriesScreen(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(Dimens.PaddingMain),
             horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
-            verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain)
+            verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
         ) {
             items(categories, key = { it.id }) { category ->
                 CategoryItem(
                     category = category,
-                    onClick = { onCategoryClick(category.id) },
+                    onClick = {
+                        onCategoryClick(
+                            category.id,
+                            category.title
+                        )
+                    },
                 )
             }
         }
