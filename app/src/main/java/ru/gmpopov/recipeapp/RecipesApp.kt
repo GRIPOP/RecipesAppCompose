@@ -3,6 +3,7 @@ package ru.gmpopov.recipeapp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -50,8 +51,8 @@ fun RecipesApp() {
                         val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         RecipesScreen(
                             categoryId = categoryId,
-                            categoryTitle = RecipesRepositoryStub.getCategories()
-                                .find { it.id == categoryId }?.title ?: "",
+                            categoryTitle = remember(categoryId) { RecipesRepositoryStub.getCategories()
+                                .find { it.id == categoryId }?.title ?: "" },
                             modifier = Modifier.padding(paddingValues),
                             onRecipeClick = {}
                         )
