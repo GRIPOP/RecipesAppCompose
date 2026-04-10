@@ -400,6 +400,7 @@ object RecipesRepositoryStub {
             ),
         )
 
+
     fun getCategories(): List<CategoryDto> {
         return categories
     }

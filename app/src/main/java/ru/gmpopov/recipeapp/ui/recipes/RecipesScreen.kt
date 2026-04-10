@@ -22,7 +22,7 @@ import ru.gmpopov.recipeapp.ui.recipes.model.toUiModel
 fun RecipesScreen(
     categoryId: Int,
     categoryTitle: String,
-    onRecipeClick: (Int) -> Unit,
+    onRecipeClick: (Int, RecipeUiModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
@@ -48,7 +48,7 @@ fun RecipesScreen(
             items(recipes, key = { it.id }) { recipe ->
                 RecipeItem(
                     recipe = recipe,
-                    onClick = { onRecipeClick(recipe.id) },
+                    onClick = { onRecipeClick(recipe.id, recipe) },
                     modifier = Modifier
                         .fillMaxWidth()
                 )
