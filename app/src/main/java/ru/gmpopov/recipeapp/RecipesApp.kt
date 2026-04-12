@@ -14,8 +14,10 @@ import ru.gmpopov.recipeapp.core.ui.navigation.BottomNavigation
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
 import ru.gmpopov.recipeapp.navigation.Destination
 import ru.gmpopov.recipeapp.ui.categories.CategoriesScreen
+import ru.gmpopov.recipeapp.ui.details.RecipeDetailsScreen
 import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
 import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
+import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 @Composable
@@ -51,11 +53,27 @@ fun RecipesApp() {
                         val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         RecipesScreen(
                             categoryId = categoryId,
-                            categoryTitle = remember(categoryId) { RecipesRepositoryStub.getCategories()
-                                .find { it.id == categoryId }?.title ?: "" },
+                            categoryTitle = remember(categoryId) {
+                                RecipesRepositoryStub.getCategories()
+                                    .find { it.id == categoryId }?.title ?: ""
+                            },
+                            onRecipeClick = { recipeId, recipe ->
+                                navController.currentBackStackEntry?.savedStateHandle?.set(KEY_RECIPE_OBJECT, recipe)
+                                navController.navigate(Destination.RecipeItem.createRoute(recipeId))
+                            },
                             modifier = Modifier.padding(paddingValues),
-                            onRecipeClick = {}
+
+                            )
+                    }
+
+                    composable(route = Destination.RecipeItem.route) {
+                        navController.previousBackStackEntry?.savedStateHandle?.get<RecipeUiModel>(
+                            KEY_RECIPE_OBJECT
                         )
+                            ?.let { recipe ->
+                                RecipeDetailsScreen(recipe = recipe)
+                            }
+
                     }
                 }
             },
