@@ -58,22 +58,29 @@ fun RecipesApp() {
                                     .find { it.id == categoryId }?.title ?: ""
                             },
                             onRecipeClick = { recipeId, recipe ->
-                                navController.currentBackStackEntry?.savedStateHandle?.set(KEY_RECIPE_OBJECT, recipe)
-                                navController.navigate(Destination.RecipeItem.createRoute(recipeId))
+                                navController.navigate(
+                                    Destination.RecipeItem.createRoute(
+                                        recipeId,
+                                        categoryId
+                                    )
+                                )
                             },
                             modifier = Modifier.padding(paddingValues),
 
                             )
                     }
 
-                    composable(route = Destination.RecipeItem.route) {
-                        navController.previousBackStackEntry?.savedStateHandle?.get<RecipeUiModel>(
-                            KEY_RECIPE_OBJECT
+                    composable(
+                        route = Destination.RecipeItem.route,
+                        arguments = listOf(
+                            navArgument("categoryId") { type = NavType.IntType },
+                            navArgument("recipeId") { type = NavType.IntType }
                         )
-                            ?.let { recipe ->
-                                RecipeDetailsScreen(recipe = recipe)
-                            }
-
+                    ) { backStackEntry ->
+                        val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
+                        val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
+                        val recipe = RecipesRepositoryStub.getRecipeById(categoryId, recipeId)
+                        recipe?.let { recipe -> RecipeDetailsScreen(recipe) }
                     }
                 }
             },

@@ -3,6 +3,8 @@ package ru.gmpopov.recipeapp.data.repository
 import ru.gmpopov.recipeapp.data.model.CategoryDto
 import ru.gmpopov.recipeapp.data.model.IngredientDto
 import ru.gmpopov.recipeapp.data.model.RecipeDto
+import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
+import ru.gmpopov.recipeapp.ui.recipes.model.toUiModel
 
 object RecipesRepositoryStub {
 
@@ -415,5 +417,14 @@ object RecipesRepositoryStub {
             5 -> saladRecipes
             else -> emptyList()
         }
+    }
+
+    fun getRecipeById(
+        categoryId: Int,
+        recipeId: Int,
+    ) : RecipeUiModel? {
+        return getRecipesByCategoryId(categoryId).find { recipe ->
+            recipeId == recipe.id
+        }?.toUiModel()
     }
 }

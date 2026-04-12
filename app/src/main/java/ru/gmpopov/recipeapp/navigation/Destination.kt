@@ -7,8 +7,8 @@ sealed class Destination(val route: String) {
         fun createRoute(categoryId: Int) = "recipes/$categoryId"
     }
 
-    object RecipeItem : Destination("recipe/{recipeId}") {
+    object RecipeItem : Destination("recipe/{recipeId}/{categoryId}") {
 
-        fun createRoute(recipeId: Int) = "recipe/$recipeId"
+        fun createRoute(recipeId: Int, categoryId: Int) = "recipe/$recipeId/$categoryId"
     }
 }
