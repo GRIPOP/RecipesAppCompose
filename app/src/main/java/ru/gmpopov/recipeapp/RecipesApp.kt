@@ -66,8 +66,7 @@ fun RecipesApp() {
                                 )
                             },
                             modifier = Modifier.padding(paddingValues),
-
-                            )
+                        )
                     }
 
                     composable(
@@ -80,7 +79,12 @@ fun RecipesApp() {
                         val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
                         val recipe = RecipesRepositoryStub.getRecipeById(categoryId, recipeId)
-                        recipe?.let { recipe -> RecipeDetailsScreen(recipe) }
+                        recipe?.let { recipe ->
+                            RecipeDetailsScreen(
+                                recipe,
+                                modifier = Modifier.padding(paddingValues)
+                            )
+                        }
                     }
                 }
             },
