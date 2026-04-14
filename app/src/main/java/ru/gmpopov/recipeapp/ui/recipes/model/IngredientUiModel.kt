@@ -13,6 +13,6 @@ data class IngredientUiModel(
 ) : Parcelable
 
 fun IngredientDto.toUiModel() = IngredientUiModel(
-    name = description,
+    name = description.uppercase(),
     amount = "$quantity $unitOfMeasure"
 )
