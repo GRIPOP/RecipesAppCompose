@@ -1,5 +1,6 @@
 package ru.gmpopov.recipeapp
 
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -21,7 +22,7 @@ import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 @Composable
-fun RecipesApp() {
+fun RecipesApp(deepLinkIntent: Intent? = null) {
     RecipeAppTheme {
         val navController = rememberNavController()
 
