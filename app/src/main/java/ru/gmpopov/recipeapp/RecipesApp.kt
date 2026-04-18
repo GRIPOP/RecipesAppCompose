@@ -113,6 +113,7 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                         recipe?.let { recipe ->
                             RecipeDetailsScreen(
                                 recipe,
+                                categoryId = categoryId,
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

@@ -39,6 +39,7 @@ fun RecipesScreen(
             imagePainter = painterResource(R.drawable.ic_launcher_background),
             contentDescription = categoryTitle,
             title = categoryTitle,
+            onShareClick = {},
         )
 
         LazyColumn(

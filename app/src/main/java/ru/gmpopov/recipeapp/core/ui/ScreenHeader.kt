@@ -9,6 +9,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
@@ -19,7 +23,9 @@ import ru.gmpopov.recipeapp.ui.theme.Dimens
 fun ScreenHeader(
     imagePainter: Painter,
     contentDescription: String,
-    title: String
+    title: String,
+    showShareButton: Boolean = false,
+    onShareClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -38,6 +44,19 @@ fun ScreenHeader(
             shape = MaterialTheme.shapes.medium
         ) {
             Text(title)
+        }
+
+        if (showShareButton) {
+            IconButton(
+                onClick = onShareClick,
+                modifier = Modifier.align(Alignment.TopEnd),
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = "Share",
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
+            }
         }
     }
 }
