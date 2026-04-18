@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
@@ -18,13 +19,36 @@ import ru.gmpopov.recipeapp.ui.categories.CategoriesScreen
 import ru.gmpopov.recipeapp.ui.details.RecipeDetailsScreen
 import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
 import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
-import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
     RecipeAppTheme {
         val navController = rememberNavController()
+
+        LaunchedEffect(deepLinkIntent) {
+            deepLinkIntent?.data?.let { uri ->
+                val (recipeId, categoryId) = when (uri.scheme) {
+                    "recipeapp" ->
+                        if (uri.host == "recipe") Pair(
+                            uri.pathSegments[0].toIntOrNull(),
+                            uri.pathSegments[1].toIntOrNull()
+                        ) else Pair(null, null)
+
+                    "https", "http" ->
+                        if (uri.pathSegments[0] == "recipe") Pair(
+                            uri.pathSegments[1].toIntOrNull(),
+                            uri.pathSegments[2].toIntOrNull()
+                        ) else Pair(null, null)
+
+                    else -> Pair(null, null)
+                }
+
+                if (recipeId != null && categoryId != null) {
+                    navController.navigate(Destination.RecipeItem.createRoute(recipeId, categoryId))
+                }
+            }
+        }
 
         Scaffold(
             content = { paddingValues ->
@@ -36,7 +60,11 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                         CategoriesScreen(
                             modifier = Modifier.padding(paddingValues),
                             onCategoryClick = { categoryId, _ ->
-                                navController.navigate(Destination.Recipes.createRoute(categoryId))
+                                navController.navigate(
+                                    Destination.Recipes.createRoute(
+                                        categoryId
+                                    )
+                                )
                             },
                         )
                     }
@@ -49,7 +77,9 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
 
                     composable(
                         route = Destination.Recipes.route,
-                        arguments = listOf(navArgument("categoryId") { type = NavType.IntType }),
+                        arguments = listOf(navArgument("categoryId") {
+                            type = NavType.IntType
+                        }),
                     ) { backStackEntry ->
                         val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         RecipesScreen(
