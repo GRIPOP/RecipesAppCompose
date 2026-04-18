@@ -23,7 +23,7 @@ fun RecipesScreen(
     categoryId: Int,
     categoryTitle: String,
     onRecipeClick: (Int, RecipeUiModel) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
 
