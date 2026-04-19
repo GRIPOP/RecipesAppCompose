@@ -29,7 +29,7 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
         LaunchedEffect(deepLinkIntent) {
             deepLinkIntent?.data?.let { uri ->
                 val recipeId: Int? = when (uri.scheme) {
-                    "recipeapp" ->
+                    DEEP_LINK_SCHEME ->
                         if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
 
                     "https", "http" ->

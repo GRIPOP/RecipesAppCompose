@@ -420,15 +420,6 @@ object RecipesRepositoryStub {
     }
 
     fun getRecipeById(
-        categoryId: Int,
-        recipeId: Int,
-    ): RecipeUiModel? {
-        return getRecipesByCategoryId(categoryId).find { recipe ->
-            recipeId == recipe.id
-        }?.toUiModel()
-    }
-
-    fun getRecipeById(
         recipeId: Int,
     ): RecipeUiModel? {
         return listOf<List<RecipeDto>>(
