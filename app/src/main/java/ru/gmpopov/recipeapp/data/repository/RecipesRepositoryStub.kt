@@ -162,7 +162,7 @@ object RecipesRepositoryStub {
     private val dessertRecipes: List<RecipeDto> =
         listOf(
             RecipeDto(
-                id = 0,
+                id = 2,
                 title = "Тирамису",
                 ingredients = listOf(
                     IngredientDto("250", "г", "сыр маскарпоне"),
@@ -186,7 +186,7 @@ object RecipesRepositoryStub {
                 imageUrl = "dessert_tiramisu.png"
             ),
             RecipeDto(
-                id = 1,
+                id = 3,
                 title = "Шоколадный брауни",
                 ingredients = listOf(
                     IngredientDto("200", "г", "темный шоколад (70%)"),
@@ -213,7 +213,7 @@ object RecipesRepositoryStub {
     private val pizzaRecipes: List<RecipeDto> =
         listOf(
             RecipeDto(
-                id = 0,
+                id = 4,
                 title = "Маргарита",
                 ingredients = listOf(
                     IngredientDto("300", "г", "тесто для пиццы"),
@@ -236,7 +236,7 @@ object RecipesRepositoryStub {
                 imageUrl = "pizza_margherita.png"
             ),
             RecipeDto(
-                id = 1,
+                id = 5,
                 title = "Пепперони",
                 ingredients = listOf(
                     IngredientDto("300", "г", "тесто для пиццы"),
@@ -261,7 +261,7 @@ object RecipesRepositoryStub {
     private val fishRecipes: List<RecipeDto> =
         listOf(
             RecipeDto(
-                id = 0,
+                id = 6,
                 title = "Лосось в лимонно-чесночном соусе",
                 ingredients = listOf(
                     IngredientDto("4", "шт", "стейки лосося (по 150-200г)"),
@@ -281,7 +281,7 @@ object RecipesRepositoryStub {
                 imageUrl = "fish_salmon.png"
             ),
             RecipeDto(
-                id = 1,
+                id = 7,
                 title = "Запеченная треска с овощами",
                 ingredients = listOf(
                     IngredientDto("4", "шт", "филе трески"),
@@ -307,7 +307,7 @@ object RecipesRepositoryStub {
     private val soupRecipes: List<RecipeDto> =
         listOf(
             RecipeDto(
-                id = 0,
+                id = 8,
                 title = "Томатный суп с базиликом",
                 ingredients = listOf(
                     IngredientDto("1", "кг", "помидоров"),
@@ -329,7 +329,7 @@ object RecipesRepositoryStub {
                 imageUrl = "soup_tomato.png"
             ),
             RecipeDto(
-                id = 1,
+                id = 9,
                 title = "Грибной суп-пюре",
                 ingredients = listOf(
                     IngredientDto("500", "г", "шампиньонов"),
@@ -356,7 +356,7 @@ object RecipesRepositoryStub {
     private val saladRecipes: List<RecipeDto> =
         listOf(
             RecipeDto(
-                id = 0,
+                id = 10,
                 title = "Цезарь с курицей",
                 ingredients = listOf(
                     IngredientDto("2", "шт", "куриных филе"),
@@ -378,7 +378,7 @@ object RecipesRepositoryStub {
                 imageUrl = "salad_caesar.png"
             ),
             RecipeDto(
-                id = 1,
+                id = 11,
                 title = "Греческий салат",
                 ingredients = listOf(
                     IngredientDto("2", "шт", "огурца"),
