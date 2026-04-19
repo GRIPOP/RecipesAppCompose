@@ -28,24 +28,18 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
 
         LaunchedEffect(deepLinkIntent) {
             deepLinkIntent?.data?.let { uri ->
-                val (recipeId, categoryId) = when (uri.scheme) {
+                val recipeId: Int? = when (uri.scheme) {
                     "recipeapp" ->
-                        if (uri.host == "recipe") Pair(
-                            uri.pathSegments[0].toIntOrNull(),
-                            uri.pathSegments[1].toIntOrNull()
-                        ) else Pair(null, null)
+                        if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
 
                     "https", "http" ->
-                        if (uri.pathSegments[0] == "recipe") Pair(
-                            uri.pathSegments[1].toIntOrNull(),
-                            uri.pathSegments[2].toIntOrNull()
-                        ) else Pair(null, null)
+                        if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
 
-                    else -> Pair(null, null)
+                    else -> null
                 }
 
-                if (recipeId != null && categoryId != null) {
-                    navController.navigate(Destination.RecipeItem.createRoute(recipeId, categoryId))
+                if (recipeId != null) {
+                    navController.navigate(Destination.RecipeItem.createRoute(recipeId))
                 }
             }
         }
@@ -90,10 +84,7 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             },
                             onRecipeClick = { recipeId, recipe ->
                                 navController.navigate(
-                                    Destination.RecipeItem.createRoute(
-                                        recipeId,
-                                        categoryId
-                                    )
+                                    Destination.RecipeItem.createRoute(recipeId)
                                 )
                             },
                             modifier = Modifier.padding(paddingValues),
@@ -103,17 +94,14 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                     composable(
                         route = Destination.RecipeItem.route,
                         arguments = listOf(
-                            navArgument("categoryId") { type = NavType.IntType },
-                            navArgument("recipeId") { type = NavType.IntType }
+                            navArgument("recipeId") { type = NavType.IntType },
                         )
                     ) { backStackEntry ->
-                        val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
-                        val recipe = RecipesRepositoryStub.getRecipeById(categoryId, recipeId)
+                        val recipe = RecipesRepositoryStub.getRecipeById(recipeId)
                         recipe?.let { recipe ->
                             RecipeDetailsScreen(
                                 recipe,
-                                categoryId = categoryId,
                                 modifier = Modifier.padding(paddingValues)
                             )
                         }

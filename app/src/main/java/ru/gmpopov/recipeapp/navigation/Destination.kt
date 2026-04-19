@@ -9,12 +9,11 @@ sealed class Destination(val route: String) {
         fun createRoute(categoryId: Int) = "recipes/$categoryId"
     }
 
-    object RecipeItem : Destination("recipe/{recipeId}/{categoryId}") {
+    object RecipeItem : Destination("recipe/{recipeId}") {
 
-        fun createRoute(recipeId: Int, categoryId: Int) = "recipe/$recipeId/$categoryId"
+        fun createRoute(recipeId: Int) = "recipe/$recipeId"
 
-        fun createRecipeDeepLink(recipeId: Int, categoryId: Int) =
-            "$DEEP_LINK_BASE_URL/recipe/$recipeId/$categoryId"
+        fun createRecipeDeepLink(recipeId: Int) =
+            "$DEEP_LINK_BASE_URL/recipe/$recipeId"
     }
-
 }

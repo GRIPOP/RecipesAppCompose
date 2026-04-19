@@ -422,9 +422,22 @@ object RecipesRepositoryStub {
     fun getRecipeById(
         categoryId: Int,
         recipeId: Int,
-    ) : RecipeUiModel? {
+    ): RecipeUiModel? {
         return getRecipesByCategoryId(categoryId).find { recipe ->
             recipeId == recipe.id
         }?.toUiModel()
+    }
+
+    fun getRecipeById(
+        recipeId: Int,
+    ): RecipeUiModel? {
+        return listOf<List<RecipeDto>>(
+            burgerRecipes,
+            dessertRecipes,
+            pizzaRecipes,
+            fishRecipes,
+            soupRecipes,
+            saladRecipes
+        ).flatten().find { it.id == recipeId }?.toUiModel()
     }
 }

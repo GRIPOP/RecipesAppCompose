@@ -19,7 +19,6 @@ import ru.gmpopov.recipeapp.ui.theme.Dimens
 @Composable
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
-    categoryId: Int,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -35,7 +34,7 @@ fun RecipeDetailsScreen(
             contentDescription = recipe.title,
             title = recipe.title,
             showShareButton = true,
-            onShareClick = { shareRecipe(context, recipe.id, categoryId, recipe.title) }
+            onShareClick = { shareRecipe(context, recipe.id, recipe.title) }
         )
         Column(
             modifier = Modifier
