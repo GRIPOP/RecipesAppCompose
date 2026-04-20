@@ -9,8 +9,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
+import ru.gmpopov.recipeapp.shareRecipe
 import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.Dimens
 
@@ -19,6 +21,8 @@ fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -29,6 +33,8 @@ fun RecipeDetailsScreen(
             imagePainter = rememberAsyncImagePainter(recipe.imageUrl),
             contentDescription = recipe.title,
             title = recipe.title,
+            showShareButton = true,
+            onShareClick = { shareRecipe(context, recipe.id, recipe.title) }
         )
         Column(
             modifier = Modifier

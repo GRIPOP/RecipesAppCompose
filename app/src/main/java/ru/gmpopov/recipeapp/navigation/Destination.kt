@@ -1,5 +1,7 @@
 package ru.gmpopov.recipeapp.navigation
 
+import ru.gmpopov.recipeapp.DEEP_LINK_BASE_URL
+
 sealed class Destination(val route: String) {
     object Categories : Destination("categories")
     object Favorites : Destination("favorites")
@@ -7,8 +9,11 @@ sealed class Destination(val route: String) {
         fun createRoute(categoryId: Int) = "recipes/$categoryId"
     }
 
-    object RecipeItem : Destination("recipe/{recipeId}/{categoryId}") {
+    object RecipeItem : Destination("recipe/{recipeId}") {
 
-        fun createRoute(recipeId: Int, categoryId: Int) = "recipe/$recipeId/$categoryId"
+        fun createRoute(recipeId: Int) = "recipe/$recipeId"
+
+        fun createRecipeDeepLink(recipeId: Int) =
+            "$DEEP_LINK_BASE_URL/recipe/$recipeId"
     }
 }

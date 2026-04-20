@@ -1,8 +1,10 @@
 package ru.gmpopov.recipeapp
 
+import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
@@ -17,13 +19,30 @@ import ru.gmpopov.recipeapp.ui.categories.CategoriesScreen
 import ru.gmpopov.recipeapp.ui.details.RecipeDetailsScreen
 import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
 import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
-import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
 
 @Composable
-fun RecipesApp() {
+fun RecipesApp(deepLinkIntent: Intent? = null) {
     RecipeAppTheme {
         val navController = rememberNavController()
+
+        LaunchedEffect(deepLinkIntent) {
+            deepLinkIntent?.data?.let { uri ->
+                val recipeId: Int? = when (uri.scheme) {
+                    DEEP_LINK_SCHEME ->
+                        if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+
+                    "https", "http" ->
+                        if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+
+                    else -> null
+                }
+
+                if (recipeId != null) {
+                    navController.navigate(Destination.RecipeItem.createRoute(recipeId))
+                }
+            }
+        }
 
         Scaffold(
             content = { paddingValues ->
@@ -35,7 +54,11 @@ fun RecipesApp() {
                         CategoriesScreen(
                             modifier = Modifier.padding(paddingValues),
                             onCategoryClick = { categoryId, _ ->
-                                navController.navigate(Destination.Recipes.createRoute(categoryId))
+                                navController.navigate(
+                                    Destination.Recipes.createRoute(
+                                        categoryId
+                                    )
+                                )
                             },
                         )
                     }
@@ -48,7 +71,9 @@ fun RecipesApp() {
 
                     composable(
                         route = Destination.Recipes.route,
-                        arguments = listOf(navArgument("categoryId") { type = NavType.IntType }),
+                        arguments = listOf(navArgument("categoryId") {
+                            type = NavType.IntType
+                        }),
                     ) { backStackEntry ->
                         val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         RecipesScreen(
@@ -59,10 +84,7 @@ fun RecipesApp() {
                             },
                             onRecipeClick = { recipeId, recipe ->
                                 navController.navigate(
-                                    Destination.RecipeItem.createRoute(
-                                        recipeId,
-                                        categoryId
-                                    )
+                                    Destination.RecipeItem.createRoute(recipeId)
                                 )
                             },
                             modifier = Modifier.padding(paddingValues),
@@ -72,13 +94,11 @@ fun RecipesApp() {
                     composable(
                         route = Destination.RecipeItem.route,
                         arguments = listOf(
-                            navArgument("categoryId") { type = NavType.IntType },
-                            navArgument("recipeId") { type = NavType.IntType }
+                            navArgument("recipeId") { type = NavType.IntType },
                         )
                     ) { backStackEntry ->
-                        val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
                         val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
-                        val recipe = RecipesRepositoryStub.getRecipeById(categoryId, recipeId)
+                        val recipe = RecipesRepositoryStub.getRecipeById(recipeId)
                         recipe?.let { recipe ->
                             RecipeDetailsScreen(
                                 recipe,
