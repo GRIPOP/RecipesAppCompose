@@ -21,5 +21,6 @@ fun IngredientItem(
     ) {
         Text(text = ingredient.name)
         Text(text = ingredient.amount)
+        Text(text = ingredient.unit)
     }
 }
