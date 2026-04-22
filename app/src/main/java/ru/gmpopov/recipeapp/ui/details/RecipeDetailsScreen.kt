@@ -15,9 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import coil.compose.rememberAsyncImagePainter
 import ru.gmpopov.recipeapp.MAX_PORTIONS
 import ru.gmpopov.recipeapp.MIN_PORTIONS
+import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.shareRecipe
 import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
@@ -44,6 +46,12 @@ fun RecipeDetailsScreen(
         }
     }
 
+    val portionsText = pluralStringResource(
+        R.plurals.portions_count,
+        currentPortions,
+        currentPortions
+    )
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -69,7 +77,7 @@ fun RecipeDetailsScreen(
             )
 
             Text(
-                text = "Порции: $currentPortions",
+                text = portionsText,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
