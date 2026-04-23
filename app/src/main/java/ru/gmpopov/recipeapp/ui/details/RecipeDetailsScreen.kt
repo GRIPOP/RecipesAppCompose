@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,9 +31,12 @@ import ru.gmpopov.recipeapp.ui.theme.Dimens
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
+    showFavoriteButton: Boolean = true,
 ) {
     var currentPortions by remember { mutableIntStateOf(recipe.servings) }
     val context = LocalContext.current
+    var isFavoriteState by rememberSaveable { mutableStateOf(false) }
 
     val scaleIngredients = remember(currentPortions) {
         val multiplier = currentPortions.toFloat() / recipe.servings
@@ -63,7 +68,10 @@ fun RecipeDetailsScreen(
             contentDescription = recipe.title,
             title = recipe.title,
             showShareButton = true,
-            onShareClick = { shareRecipe(context, recipe.id, recipe.title) }
+            onShareClick = { shareRecipe(context, recipe.id, recipe.title) },
+            isFavorite = isFavoriteState,
+            showFavoriteButton = true,
+            onFavoriteClick = { isFavoriteState = !isFavoriteState},
         )
 
         Column(
@@ -116,6 +124,8 @@ fun RecipeDetailsScreen(
                 }
             }
         }
+
+
     }
 }
 
