@@ -23,7 +23,6 @@ import ru.gmpopov.recipeapp.MAX_PORTIONS
 import ru.gmpopov.recipeapp.MIN_PORTIONS
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.shareRecipe
 import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.Dimens
 
@@ -32,13 +31,19 @@ fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
     isFavorite: Boolean = false,
-    showFavoriteButton: Boolean = true,
+    onFavoriteToggle: (Boolean) -> Unit = {},
 ) {
-    var currentPortions by remember { mutableIntStateOf(recipe.servings) }
+    var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     val context = LocalContext.current
-    var isFavoriteState by rememberSaveable { mutableStateOf(false) }
+    var isFavoriteState by rememberSaveable { mutableStateOf(isFavorite) }
 
-    val scaleIngredients = remember(currentPortions) {
+    val portionsText = pluralStringResource(
+        R.plurals.portions_count,
+        currentPortions,
+        currentPortions
+    )
+
+    val scaleIngredients = remember(recipe.ingredients, currentPortions) {
         val multiplier = currentPortions.toFloat() / recipe.servings
         recipe.ingredients.map { ingredient ->
             ingredient.copy(
@@ -51,18 +56,11 @@ fun RecipeDetailsScreen(
         }
     }
 
-    val portionsText = pluralStringResource(
-        R.plurals.portions_count,
-        currentPortions,
-        currentPortions
-    )
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-
         ScreenHeader(
             imagePainter = rememberAsyncImagePainter(recipe.imageUrl),
             contentDescription = recipe.title,
@@ -71,7 +69,10 @@ fun RecipeDetailsScreen(
             onShareClick = { shareRecipe(context, recipe.id, recipe.title) },
             isFavorite = isFavoriteState,
             showFavoriteButton = true,
-            onFavoriteClick = { isFavoriteState = !isFavoriteState},
+            onFavoriteClick = {
+                isFavoriteState = !isFavoriteState
+                onFavoriteToggle(isFavoriteState)
+            },
         )
 
         Column(
@@ -98,7 +99,6 @@ fun RecipeDetailsScreen(
             )
         }
 
-
         Column(
             modifier = Modifier
                 .padding(Dimens.PaddingMain)
@@ -124,8 +124,6 @@ fun RecipeDetailsScreen(
                 }
             }
         }
-
-
     }
 }
 

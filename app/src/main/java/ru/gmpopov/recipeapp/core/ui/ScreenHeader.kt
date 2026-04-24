@@ -69,6 +69,7 @@ fun ScreenHeader(
                 )
             }
         }
+
         if (showFavoriteButton) {
             IconButton(
                 onClick = onFavoriteClick,
@@ -91,7 +92,6 @@ fun ScreenHeader(
                     )
                 }
             }
-
         }
     }
 }
