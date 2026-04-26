@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RecipeApp</string>
+
+    <plurals name="portions_count">
+        <item quantity="one">Порция: %d</item>
+        <item quantity="few">Порции: %d</item>
+        <item quantity="many">Порций: %d</item>
+        <item quantity="other">Порций: %d</item>
+    </plurals>
+
 </resources>

@@ -1,4 +1,4 @@
-package ru.gmpopov.recipeapp
+package ru.gmpopov.recipeapp.ui.details
 
 import android.content.Context
 import android.content.Intent

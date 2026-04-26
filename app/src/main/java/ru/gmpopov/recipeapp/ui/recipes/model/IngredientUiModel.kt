@@ -10,9 +10,11 @@ import ru.gmpopov.recipeapp.data.model.IngredientDto
 data class IngredientUiModel(
     val name: String,
     val amount: String,
+    val unit: String,
 ) : Parcelable
 
 fun IngredientDto.toUiModel() = IngredientUiModel(
     name = description.uppercase(),
-    amount = "$quantity $unitOfMeasure"
+    amount = quantity,
+    unit = unitOfMeasure,
 )

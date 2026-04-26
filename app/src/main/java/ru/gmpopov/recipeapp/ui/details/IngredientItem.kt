@@ -20,6 +20,6 @@ fun IngredientItem(
             .fillMaxWidth()
     ) {
         Text(text = ingredient.name)
-        Text(text = ingredient.amount)
+        Text(text = "${ingredient.amount} ${ingredient.unit}")
     }
 }

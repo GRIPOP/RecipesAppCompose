@@ -19,7 +19,7 @@ fun FavoritesScreen(
             painterResource(R.drawable.bcg_favorites),
             "",
             "Избранное",
-            onShareClick = {}
+            onShareClick = {},
         )
 
         Text("Здесь будет список избранного")

@@ -31,7 +31,7 @@ fun CategoriesScreen(
             painterResource(R.drawable.bcg_categories),
             "",
             "Категории",
-            onShareClick = {}
+            onShareClick = {},
         )
 
         LazyVerticalGrid(
