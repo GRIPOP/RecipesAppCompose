@@ -8,3 +8,5 @@ const val DEEP_LINK_BASE_URL = "https://recipes.androidsprint.ru"
 const val MAX_PORTIONS = 12f
 
 const val MIN_PORTIONS = 1f
+
+const val KEY_FAVORITE_RECIPE_IDS = "favorite_recipe_ids"
