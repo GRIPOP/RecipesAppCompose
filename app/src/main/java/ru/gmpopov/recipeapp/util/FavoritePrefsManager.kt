@@ -7,7 +7,6 @@ import androidx.core.content.edit
 import ru.gmpopov.recipeapp.PREFS_FILE_NAME
 
 class FavoritePrefsManager(context: Context) {
-
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE)
 

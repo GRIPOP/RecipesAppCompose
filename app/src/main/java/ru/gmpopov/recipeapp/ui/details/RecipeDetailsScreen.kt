@@ -25,6 +25,7 @@ import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.Dimens
+import ru.gmpopov.recipeapp.util.FavoritePrefsManager
 
 @Composable
 fun RecipeDetailsScreen(
@@ -35,7 +36,14 @@ fun RecipeDetailsScreen(
 ) {
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     val context = LocalContext.current
-    var isFavoriteState by rememberSaveable { mutableStateOf(isFavorite) }
+    val favoritePrefsManager = FavoritePrefsManager(context)
+    var isFavoriteState by remember(recipe.id) {
+        mutableStateOf(
+            favoritePrefsManager.isFavorite(
+                recipe.id
+            )
+        )
+    }
 
     val portionsText = pluralStringResource(
         R.plurals.portions_count,
@@ -71,7 +79,15 @@ fun RecipeDetailsScreen(
             showFavoriteButton = true,
             onFavoriteClick = {
                 isFavoriteState = !isFavoriteState
+
+                if (isFavorite) {
+                    favoritePrefsManager.addFavorites(recipe.id)
+                } else {
+                    favoritePrefsManager.removeFromFavorites(recipe.id)
+                }
+
                 onFavoriteToggle(isFavoriteState)
+
             },
         )
 
@@ -126,4 +142,3 @@ fun RecipeDetailsScreen(
         }
     }
 }
-
