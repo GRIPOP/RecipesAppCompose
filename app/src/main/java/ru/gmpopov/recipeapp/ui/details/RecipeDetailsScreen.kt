@@ -31,12 +31,11 @@ import ru.gmpopov.recipeapp.util.FavoritePrefsManager
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
-    isFavorite: Boolean = false,
     onFavoriteToggle: (Boolean) -> Unit = {},
 ) {
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     val context = LocalContext.current
-    val favoritePrefsManager = FavoritePrefsManager(context)
+    val favoritePrefsManager = remember { FavoritePrefsManager(context) }
     var isFavoriteState by remember(recipe.id) {
         mutableStateOf(
             favoritePrefsManager.isFavorite(
@@ -80,7 +79,7 @@ fun RecipeDetailsScreen(
             onFavoriteClick = {
                 isFavoriteState = !isFavoriteState
 
-                if (isFavorite) {
+                if (isFavoriteState) {
                     favoritePrefsManager.addFavorites(recipe.id)
                 } else {
                     favoritePrefsManager.removeFromFavorites(recipe.id)
