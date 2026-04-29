@@ -10,4 +10,3 @@ const val MAX_PORTIONS = 12f
 const val MIN_PORTIONS = 1f
 
 const val PREFS_FILE_NAME = "recipe_app_prefs"
-const val KEY_FAVORITE_RECIPE_IDS = "favorite_recipe_ids"

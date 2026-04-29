@@ -9,23 +9,26 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import coil.compose.rememberAsyncImagePainter
+import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.MAX_PORTIONS
 import ru.gmpopov.recipeapp.MIN_PORTIONS
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
 import ru.gmpopov.recipeapp.ui.theme.Dimens
-import ru.gmpopov.recipeapp.util.FavoritePrefsManager
+import ru.gmpopov.recipeapp.util.FavoriteDataStoreManager
 
 @Composable
 fun RecipeDetailsScreen(
@@ -35,14 +38,9 @@ fun RecipeDetailsScreen(
 ) {
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     val context = LocalContext.current
-    val favoritePrefsManager = remember { FavoritePrefsManager(context) }
-    var isFavoriteState by remember(recipe.id) {
-        mutableStateOf(
-            favoritePrefsManager.isFavorite(
-                recipe.id
-            )
-        )
-    }
+    val favoritePrefsManager = remember { FavoriteDataStoreManager(context) }
+    val coroutineScope = rememberCoroutineScope()
+    var isFavoriteState by remember { mutableStateOf(false) }
 
     val portionsText = pluralStringResource(
         R.plurals.portions_count,
@@ -63,6 +61,11 @@ fun RecipeDetailsScreen(
         }
     }
 
+    LaunchedEffect(recipe.id) {
+        isFavoriteState = favoritePrefsManager.isFavorite(recipe.id)
+    }
+
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -79,14 +82,15 @@ fun RecipeDetailsScreen(
             onFavoriteClick = {
                 isFavoriteState = !isFavoriteState
 
-                if (isFavoriteState) {
-                    favoritePrefsManager.addFavorites(recipe.id)
-                } else {
-                    favoritePrefsManager.removeFromFavorites(recipe.id)
+                coroutineScope.launch {
+                    if (isFavoriteState) {
+                        favoritePrefsManager.addFavorite(recipe.id)
+                    } else {
+                        favoritePrefsManager.removeFavorite(recipe.id)
+                    }
                 }
 
                 onFavoriteToggle(isFavoriteState)
-
             },
         )
 
