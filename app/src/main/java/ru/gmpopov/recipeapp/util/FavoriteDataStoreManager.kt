@@ -18,14 +18,14 @@ class FavoriteDataStoreManager(private val context: Context) {
     }
 
     fun isFavoriteFlow(recipeId: Int): Flow<Boolean> {
-        return getFavoriteIdsFlow().map { preferences ->
-            preferences.contains(recipeId.toString())
+        return getFavoriteIdsFlow().map { favoriteIds ->
+            favoriteIds.contains(recipeId.toString())
         }
     }
 
     fun getFavoriteCountFlow(): Flow<Int> {
-        return getFavoriteIdsFlow().map { preferences ->
-            preferences.size
+        return getFavoriteIdsFlow().map {
+            it.size
         }
     }
 
