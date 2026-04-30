@@ -20,6 +20,7 @@ import ru.gmpopov.recipeapp.ui.details.RecipeDetailsScreen
 import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
 import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
 import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
+import ru.gmpopov.recipeapp.util.FavoriteDataStoreManager
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
