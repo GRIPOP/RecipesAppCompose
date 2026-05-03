@@ -9,10 +9,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,13 +39,15 @@ fun RecipeDetailsScreen(
     val context = LocalContext.current
     val favoritePrefsManager = remember { FavoriteDataStoreManager(context) }
     val coroutineScope = rememberCoroutineScope()
-    var isFavoriteState by remember { mutableStateOf(false) }
-
     val portionsText = pluralStringResource(
         R.plurals.portions_count,
         currentPortions,
         currentPortions
     )
+
+    val isFavoriteState by favoritePrefsManager
+        .isFavoriteFlow(recipe.id)
+        .collectAsState(initial = false)
 
     val scaleIngredients = remember(recipe.ingredients, currentPortions) {
         val multiplier = currentPortions.toFloat() / recipe.servings
@@ -60,11 +61,6 @@ fun RecipeDetailsScreen(
             )
         }
     }
-
-    LaunchedEffect(recipe.id) {
-        isFavoriteState = favoritePrefsManager.isFavorite(recipe.id)
-    }
-
 
     Column(
         modifier = modifier
@@ -80,17 +76,15 @@ fun RecipeDetailsScreen(
             isFavorite = isFavoriteState,
             showFavoriteButton = true,
             onFavoriteClick = {
-                isFavoriteState = !isFavoriteState
-
                 coroutineScope.launch {
                     if (isFavoriteState) {
-                        favoritePrefsManager.addFavorite(recipe.id)
-                    } else {
                         favoritePrefsManager.removeFavorite(recipe.id)
+                    } else {
+                        favoritePrefsManager.addFavorite(recipe.id)
                     }
                 }
 
-                onFavoriteToggle(isFavoriteState)
+                onFavoriteToggle(!isFavoriteState)
             },
         )
 
