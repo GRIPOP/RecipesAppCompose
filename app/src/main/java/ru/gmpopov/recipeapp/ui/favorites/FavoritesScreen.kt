@@ -49,7 +49,7 @@ fun FavoritesScreen(
         } else {
 
             LazyColumn {
-                items(favoritesRecipes) { recipe ->
+                items(items = favoritesRecipes, key = { it.id }) { recipe ->
                     RecipeItem(
                         recipe = recipe,
                         onClick = onClickRecipeCard,
