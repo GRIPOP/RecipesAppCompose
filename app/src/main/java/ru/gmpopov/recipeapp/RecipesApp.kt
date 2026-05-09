@@ -15,13 +15,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ru.gmpopov.recipeapp.core.ui.navigation.BottomNavigation
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
-import ru.gmpopov.recipeapp.navigation.Destination
-import ru.gmpopov.recipeapp.ui.categories.CategoriesScreen
-import ru.gmpopov.recipeapp.ui.details.RecipeDetailsScreen
-import ru.gmpopov.recipeapp.ui.favorites.FavoritesScreen
-import ru.gmpopov.recipeapp.ui.recipes.RecipesScreen
-import ru.gmpopov.recipeapp.ui.theme.RecipeAppTheme
-import ru.gmpopov.recipeapp.util.FavoriteDataStoreManager
+import ru.gmpopov.recipeapp.core.navigation.Destination
+import ru.gmpopov.recipeapp.features.categories.ui.CategoriesScreen
+import ru.gmpopov.recipeapp.features.details.ui.RecipeDetailsScreen
+import ru.gmpopov.recipeapp.features.favorites.ui.FavoritesScreen
+import ru.gmpopov.recipeapp.features.recipes.ui.RecipesScreen
+import ru.gmpopov.recipeapp.core.ui.theme.RecipeAppTheme
+import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
+import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {

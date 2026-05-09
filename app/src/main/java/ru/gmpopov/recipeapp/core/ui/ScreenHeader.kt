@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
 import ru.gmpopov.recipeapp.R
-import ru.gmpopov.recipeapp.ui.theme.Dimens
+import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 
 @Composable
 fun ScreenHeader(

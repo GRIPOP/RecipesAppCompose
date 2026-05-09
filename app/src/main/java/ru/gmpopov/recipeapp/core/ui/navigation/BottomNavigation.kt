@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.gmpopov.recipeapp.ui.theme.Dimens
-import ru.gmpopov.recipeapp.util.FavoriteDataStoreManager
+import ru.gmpopov.recipeapp.core.ui.theme.Dimens
+import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
 
 @Composable
 fun BottomNavigation(

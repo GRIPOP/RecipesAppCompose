@@ -3,8 +3,8 @@ package ru.gmpopov.recipeapp.data.repository
 import ru.gmpopov.recipeapp.data.model.CategoryDto
 import ru.gmpopov.recipeapp.data.model.IngredientDto
 import ru.gmpopov.recipeapp.data.model.RecipeDto
-import ru.gmpopov.recipeapp.ui.recipes.model.RecipeUiModel
-import ru.gmpopov.recipeapp.ui.recipes.model.toUiModel
+import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
+import ru.gmpopov.recipeapp.features.recipes.presentation.model.toUiModel
 
 object RecipesRepositoryStub {
 
