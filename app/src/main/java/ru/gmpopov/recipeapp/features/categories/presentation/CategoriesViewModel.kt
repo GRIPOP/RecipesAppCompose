@@ -37,7 +37,7 @@ class CategoriesViewModel : ViewModel() {
                 _uiState.update { currentState ->
                     currentState.copy(
                         isLoading = false,
-                        error = "ошибка загрузки данных"
+                        error = "Ошибка загрузки данных"
                     )
                 }
             }
