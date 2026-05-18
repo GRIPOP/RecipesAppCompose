@@ -23,14 +23,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
+import coil.compose.AsyncImage
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 
 @Composable
 fun ScreenHeader(
-    imagePainter: Painter,
+    imagePainter: Painter? = null,
+    imageUrl: String? = null,
     contentDescription: String,
-    title: String,
+    title: String = "",
     showShareButton: Boolean = false,
     onShareClick: () -> Unit = {},
     isFavorite: Boolean = false,
@@ -43,12 +45,25 @@ fun ScreenHeader(
             .height(Dimens.HeaderHeight)
             .fillMaxWidth()
     ) {
-        Image(
-            painter = imagePainter,
-            contentDescription = contentDescription,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop,
-        )
+        when {
+            imagePainter != null -> {
+                Image(
+                    painter = imagePainter,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
+            }
+            imageUrl != null -> {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
+
+            }
+        }
         Surface(
             modifier = Modifier
                 .align(Alignment.BottomStart),
