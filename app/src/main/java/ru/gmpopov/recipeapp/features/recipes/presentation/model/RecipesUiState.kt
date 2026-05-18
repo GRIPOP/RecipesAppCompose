@@ -6,5 +6,7 @@ data class RecipesUiState(
     val recipes: List<RecipeUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
-    val isEmptyRecipes: Boolean = false,
-)
+) {
+    val isEmptyRecipes: Boolean
+        get() = !isLoading && error == null && recipes.isEmpty()
+}
