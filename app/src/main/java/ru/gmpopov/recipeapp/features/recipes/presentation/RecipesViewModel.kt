@@ -12,16 +12,10 @@ class RecipesViewModel(
 ) {
     val categoryId: Int = savedStateHandle.get("categoryId")
         ?: throw IllegalArgumentException("Категория не найдена")
-    val categoryTitle: String = Uri.decode(savedStateHandle.get("categoryTitle") ?: "")
-    val categoryImageUrl: String = Uri.decode(savedStateHandle.get("categoryImageUrl") ?: "")
-
-    val recipes = RecipesRepositoryStub.getRecipesByCategoryId(categoryId).map {
-        it.toUiModel()
-    }
 
     val uiState = RecipesUiState(
-        categoryTitle = categoryTitle,
-        categoryImageUrl = categoryImageUrl,
-        recipes = recipes,
+        categoryTitle = Uri.decode(savedStateHandle.get("categoryTitle") ?: ""),
+        categoryImageUrl = Uri.decode(savedStateHandle.get("categoryImageUrl") ?: ""),
+        recipes = RecipesRepositoryStub.getRecipesByCategoryId(categoryId).map { it.toUiModel() },
     )
 }
