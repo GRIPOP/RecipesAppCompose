@@ -3,9 +3,10 @@ package ru.gmpopov.recipeapp.features.details.presentation.model
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 
 
-class RecipeDetailsUiState(
+data class RecipeDetailsUiState(
     val recipe: RecipeUiModel,
     val servings: Int,
+    val isFavorite: Boolean = false,
     val isLoading: Boolean = false,
     val error: String? = null,
 ) {
@@ -20,5 +21,4 @@ class RecipeDetailsUiState(
                 }
             )
         }
-
 }
