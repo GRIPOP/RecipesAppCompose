@@ -16,9 +16,7 @@ class RecipeDetailsViewModel(
     application: Application,
     private val recipe: RecipeUiModel,
 ) : AndroidViewModel(application) {
-
     val favoriteDataStoreManager = FavoriteDataStoreManager(application)
-
     private val _uiState =
         MutableStateFlow(RecipeDetailsUiState(recipe = recipe, servings = recipe.servings))
     val uiState: StateFlow<RecipeDetailsUiState> = _uiState.asStateFlow()
@@ -41,7 +39,6 @@ class RecipeDetailsViewModel(
         } else {
             favoriteDataStoreManager.addFavorite(recipe.id)
         }
-
     }
 
     fun updatePortions(newServings: Int) {
