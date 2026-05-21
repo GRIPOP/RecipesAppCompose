@@ -21,8 +21,6 @@ import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 
 @Composable
 fun RecipesScreen(
-    categoryTitle: String,
-    categoryImageUrl: String,
     onRecipeClick: (Int, RecipeUiModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -67,9 +65,9 @@ fun RecipesScreen(
                 modifier = modifier,
             ) {
                 ScreenHeader(
-                    imageUrl = categoryImageUrl,
-                    contentDescription = categoryTitle,
-                    title = categoryTitle,
+                    imageUrl = uiState.categoryImageUrl,
+                    contentDescription = uiState.categoryTitle,
+                    title = uiState.categoryTitle,
                     onShareClick = {},
                 )
 

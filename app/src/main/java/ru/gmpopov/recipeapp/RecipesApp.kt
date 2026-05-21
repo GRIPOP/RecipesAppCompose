@@ -89,12 +89,8 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("categoryTitle") { type = NavType.StringType },
                             navArgument("categoryImageUrl") { type = NavType.StringType },
                         ),
-                    ) { backStackEntry ->
-                        val categoryTitle = backStackEntry.arguments?.getString("categoryTitle") ?: ""
-                        val categoryImageUrl = backStackEntry.arguments?.getString("categoryImageUrl") ?: ""
+                    ) {
                         RecipesScreen(
-                            categoryTitle = categoryTitle,
-                            categoryImageUrl = categoryImageUrl,
                             onRecipeClick = { recipeId, _ ->
                                 navController.navigate(
                                     Destination.RecipeItem.createRoute(recipeId)
