@@ -59,10 +59,12 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                     composable(route = Destination.Categories.route) {
                         CategoriesScreen(
                             modifier = Modifier.padding(paddingValues),
-                            onCategoryClick = { categoryId, _ , _->
+                            onCategoryClick = { categoryId, categoryTitle, categoryImageUrl ->
                                 navController.navigate(
                                     Destination.Recipes.createRoute(
-                                        categoryId
+                                        categoryId,
+                                        categoryTitle,
+                                        categoryImageUrl,
                                     )
                                 )
                             },
@@ -73,7 +75,7 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                         FavoritesScreen(
                             recipesRepository = RecipesRepositoryStub,
                             favoriteDataStoreManager = FavoriteDataStoreManager(context = context),
-                            onClickRecipeCard = {recipeId ->
+                            onClickRecipeCard = { recipeId ->
                                 navController.navigate(Destination.RecipeItem.createRoute(recipeId))
                             },
                             modifier = Modifier.padding(paddingValues),
@@ -82,17 +84,13 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
 
                     composable(
                         route = Destination.Recipes.route,
-                        arguments = listOf(navArgument("categoryId") {
-                            type = NavType.IntType
-                        }),
-                    ) { backStackEntry ->
-                        val categoryId = backStackEntry.arguments?.getInt("categoryId") ?: 0
+                        arguments = listOf(
+                            navArgument("categoryId") { type = NavType.IntType },
+                            navArgument("categoryTitle") { type = NavType.StringType },
+                            navArgument("categoryImageUrl") { type = NavType.StringType },
+                        ),
+                    ) {
                         RecipesScreen(
-                            categoryId = categoryId,
-                            categoryTitle = remember(categoryId) {
-                                RecipesRepositoryStub.getCategories()
-                                    .find { it.id == categoryId }?.title ?: ""
-                            },
                             onRecipeClick = { recipeId, _ ->
                                 navController.navigate(
                                     Destination.RecipeItem.createRoute(recipeId)
