@@ -1,5 +1,6 @@
 package ru.gmpopov.recipeapp.features.details.presentation.model
 
+import ru.gmpopov.recipeapp.features.recipes.presentation.model.IngredientUiModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 
 
@@ -10,7 +11,7 @@ data class RecipeDetailsUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
 ) {
-    val scaledIngredients
+    val scaledIngredients: List<IngredientUiModel>?
         get() = recipe?.ingredients?.map { ingredient ->
             val multiplier = servings.toFloat() / recipe.servings
             ingredient.copy(
