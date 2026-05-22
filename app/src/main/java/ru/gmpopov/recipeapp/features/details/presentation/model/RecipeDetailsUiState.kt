@@ -4,14 +4,14 @@ import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 
 
 data class RecipeDetailsUiState(
-    val recipe: RecipeUiModel,
-    val servings: Int,
+    val recipe: RecipeUiModel? = null,
+    val servings: Int = 1,
     val isFavorite: Boolean = false,
     val isLoading: Boolean = false,
     val error: String? = null,
 ) {
     val scaledIngredients
-        get() = recipe.ingredients.map { ingredient ->
+        get() = recipe?.ingredients?.map { ingredient ->
             val multiplier = servings.toFloat() / recipe.servings
             ingredient.copy(
                 amount = if (ingredient.amount.toFloatOrNull() == null) {

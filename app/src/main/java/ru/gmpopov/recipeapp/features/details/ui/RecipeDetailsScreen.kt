@@ -38,6 +38,7 @@ fun RecipeDetailsScreen(
     onFavoriteToggle: (Boolean) -> Unit = {},
 ) {
     val viewModel: RecipeDetailsViewModel = viewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
 
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
