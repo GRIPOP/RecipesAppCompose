@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.core.utils.MAX_PORTIONS
@@ -28,6 +29,7 @@ import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
+import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 
 @Composable
 fun RecipeDetailsScreen(
@@ -35,6 +37,9 @@ fun RecipeDetailsScreen(
     modifier: Modifier = Modifier,
     onFavoriteToggle: (Boolean) -> Unit = {},
 ) {
+    val viewModel: RecipeDetailsViewModel = viewModel()
+
+
     var currentPortions by rememberSaveable { mutableIntStateOf(recipe.servings) }
     val context = LocalContext.current
     val favoritePrefsManager = remember { FavoriteDataStoreManager(context) }
