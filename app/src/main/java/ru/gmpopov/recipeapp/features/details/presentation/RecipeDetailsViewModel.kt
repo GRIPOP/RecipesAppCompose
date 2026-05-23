@@ -15,7 +15,7 @@ import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 class RecipeDetailsViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
-    val favoriteDataStoreManager = FavoriteDataStoreManager(application)
+    private val favoriteDataStoreManager = FavoriteDataStoreManager(application)
     private val _uiState =
         MutableStateFlow(RecipeDetailsUiState())
     val uiState: StateFlow<RecipeDetailsUiState> = _uiState.asStateFlow()
@@ -25,7 +25,9 @@ class RecipeDetailsViewModel(
             favoriteDataStoreManager.getFavoriteIdsFlow().collect { favoriteIds ->
                 _uiState.update { currentState ->
                     currentState.copy(
-                        isFavorite = favoriteIds.contains(currentState.recipe?.id.toString()),
+                        isFavorite = currentState.recipe?.id?.let { id ->
+                            favoriteIds.contains(id.toString())
+                        } ?: false,
                     )
                 }
             }
@@ -41,11 +43,13 @@ class RecipeDetailsViewModel(
         }
     }
 
-    suspend fun toggleFavorite() {
-        if (_uiState.value.isFavorite) {
-            favoriteDataStoreManager.removeFavorite(_uiState.value.recipe?.id)
-        } else {
-            favoriteDataStoreManager.addFavorite(_uiState.value.recipe?.id)
+    fun toggleFavorite() {
+        viewModelScope.launch {
+            if (_uiState.value.isFavorite) {
+                favoriteDataStoreManager.removeFavorite(_uiState.value.recipe?.id)
+            } else {
+                favoriteDataStoreManager.addFavorite(_uiState.value.recipe?.id)
+            }
         }
     }
 

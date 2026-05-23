@@ -12,13 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.core.utils.MAX_PORTIONS
 import ru.gmpopov.recipeapp.core.utils.MIN_PORTIONS
 import ru.gmpopov.recipeapp.R
@@ -36,7 +34,6 @@ fun RecipeDetailsScreen(
     val viewModel: RecipeDetailsViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(recipe) {
         viewModel.initializeWithRecipe(recipe)
@@ -62,9 +59,7 @@ fun RecipeDetailsScreen(
             isFavorite = uiState.isFavorite,
             showFavoriteButton = true,
             onFavoriteClick = {
-                coroutineScope.launch {
-                    viewModel.toggleFavorite()
-                }
+                viewModel.toggleFavorite()
                 onFavoriteToggle(!uiState.isFavorite)
             },
         )

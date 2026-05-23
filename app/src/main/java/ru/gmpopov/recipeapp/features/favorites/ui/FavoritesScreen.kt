@@ -7,32 +7,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import kotlinx.coroutines.flow.map
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
 import ru.gmpopov.recipeapp.features.recipes.ui.RecipeItem
-import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
+import ru.gmpopov.recipeapp.features.favorites.presentation.FavoritesViewModel
 
 @Composable
 fun FavoritesScreen(
-    recipesRepository: RecipesRepositoryStub,
-    favoriteDataStoreManager: FavoriteDataStoreManager,
     onClickRecipeCard: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val favoritesRecipes by remember(favoriteDataStoreManager, recipesRepository) {
-        favoriteDataStoreManager.getFavoriteIdsFlow().map { favoriteIds ->
-            favoriteIds.mapNotNull { favoriteId ->
-                favoriteId.toIntOrNull()
-            }.mapNotNull {
-                recipesRepository.getRecipeById(it)
-            }
-        }
-    }.collectAsState(initial = emptyList())
+    val viewModel: FavoritesViewModel = viewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = modifier,
@@ -44,12 +34,12 @@ fun FavoritesScreen(
             onShareClick = {},
         )
 
-        if (favoritesRecipes.isEmpty()) {
+        if (uiState.favoriteRecipes.isEmpty()) {
             Text(text = "Нет избранных рецептов")
         } else {
 
             LazyColumn {
-                items(items = favoritesRecipes, key = { it.id }) { recipe ->
+                items(items = uiState.favoriteRecipes, key = { it.id }) { recipe ->
                     RecipeItem(
                         recipe = recipe,
                         onClick = onClickRecipeCard,
