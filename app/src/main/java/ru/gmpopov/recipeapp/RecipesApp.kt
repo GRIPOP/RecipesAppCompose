@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
@@ -22,7 +21,6 @@ import ru.gmpopov.recipeapp.features.favorites.ui.FavoritesScreen
 import ru.gmpopov.recipeapp.features.recipes.ui.RecipesScreen
 import ru.gmpopov.recipeapp.core.ui.theme.RecipeAppTheme
 import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
-import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
@@ -73,8 +71,6 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
 
                     composable(route = Destination.Favorites.route) {
                         FavoritesScreen(
-                            recipesRepository = RecipesRepositoryStub,
-                            favoriteDataStoreManager = FavoriteDataStoreManager(context = context),
                             onClickRecipeCard = { recipeId ->
                                 navController.navigate(Destination.RecipeItem.createRoute(recipeId))
                             },
