@@ -27,7 +27,6 @@ import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 
 @Composable
 fun RecipeDetailsScreen(
-    recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
     onFavoriteToggle: (Boolean) -> Unit = {},
 ) {
@@ -46,11 +45,19 @@ fun RecipeDetailsScreen(
             .verticalScroll(rememberScrollState())
     ) {
         ScreenHeader(
-            imagePainter = rememberAsyncImagePainter(recipe.imageUrl),
-            contentDescription = recipe.title,
-            title = recipe.title,
+            imagePainter = rememberAsyncImagePainter(uiState.recipe?.imageUrl ?: ""),
+            contentDescription = uiState.recipe?.title ?: "",
+            title = uiState.recipe?.title ?: "",
             showShareButton = true,
-            onShareClick = { shareRecipe(context, recipe.id, recipe.title) },
+            onShareClick = {
+                uiState.recipe?.let { recipe ->
+                    shareRecipe(
+                        context = context,
+                        recipeId = recipe.id,
+                        recipeTitle = recipe.title,
+                    )
+                }
+            },
             isFavorite = uiState.isFavorite,
             showFavoriteButton = true,
             onFavoriteClick = {
@@ -87,10 +94,12 @@ fun RecipeDetailsScreen(
             modifier = Modifier
                 .padding(Dimens.PaddingMain)
         ) {
-            uiState.scaledIngredients?.forEachIndexed { index, ingredient ->
-                IngredientItem(ingredient)
-                if (index < (uiState.scaledIngredients?.lastIndex ?: -1)) {
-                    HorizontalDivider()
+            uiState.scaledIngredients?.let { ingredients ->
+                ingredients.forEachIndexed { index, ingredient ->
+                    IngredientItem(ingredient)
+                    if (index < (ingredients.lastIndex)) {
+                        HorizontalDivider()
+                    }
                 }
             }
         }
@@ -99,12 +108,14 @@ fun RecipeDetailsScreen(
             modifier = Modifier
                 .padding(Dimens.PaddingMain)
         ) {
-            recipe.method.forEachIndexed { index, stepOfMethod ->
-                Text(
-                    text = "${index + 1}. $stepOfMethod"
-                )
-                if (index < recipe.method.lastIndex) {
-                    HorizontalDivider()
+            uiState.recipe?.let { recipe ->
+                recipe.method.forEachIndexed { index, stepOfMethod ->
+                    Text(
+                        text = "${index + 1}. $stepOfMethod"
+                    )
+                    if (index < recipe.method.lastIndex) {
+                        HorizontalDivider()
+                    }
                 }
             }
         }
