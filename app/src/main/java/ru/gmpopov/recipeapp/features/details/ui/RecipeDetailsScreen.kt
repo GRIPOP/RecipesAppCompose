@@ -9,7 +9,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,7 +20,6 @@ import ru.gmpopov.recipeapp.core.utils.MAX_PORTIONS
 import ru.gmpopov.recipeapp.core.utils.MIN_PORTIONS
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 

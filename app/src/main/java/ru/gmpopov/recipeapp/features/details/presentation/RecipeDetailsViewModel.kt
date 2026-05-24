@@ -14,8 +14,8 @@ import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
 import ru.gmpopov.recipeapp.features.details.presentation.model.RecipeDetailsUiState
 
 class RecipeDetailsViewModel(
-    savedStateHandle: SavedStateHandle,
     application: Application,
+    savedStateHandle: SavedStateHandle,
 ) : AndroidViewModel(application) {
     private val recipeId = savedStateHandle.get<Int>("recipeId")
         ?: throw IllegalArgumentException("recipeId is required")
