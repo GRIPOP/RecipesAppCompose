@@ -35,7 +35,7 @@ class FavoriteDataStoreManager(private val context: Context) {
         return favoritesId.contains(recipeId.toString())
     }
 
-    suspend fun addFavorite(recipeId: Int?) {
+    suspend fun addFavorite(recipeId: Int) {
         context.dataStore.edit { preferences ->
             val currentFavoriteRecipes =
                 preferences[PreferencesKeys.FAVORITE_RECIPE_IDS] ?: emptySet()
@@ -44,7 +44,7 @@ class FavoriteDataStoreManager(private val context: Context) {
         }
     }
 
-    suspend fun removeFavorite(recipeId: Int?) {
+    suspend fun removeFavorite(recipeId: Int) {
         context.dataStore.edit { preferences ->
             val currentFavoriteRecipes =
                 preferences[PreferencesKeys.FAVORITE_RECIPE_IDS] ?: emptySet()

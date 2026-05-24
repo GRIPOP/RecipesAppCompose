@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
+import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
 import ru.gmpopov.recipeapp.features.details.presentation.model.RecipeDetailsUiState
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 
@@ -45,10 +46,12 @@ class RecipeDetailsViewModel(
 
     fun toggleFavorite() {
         viewModelScope.launch {
-            if (_uiState.value.isFavorite) {
-                favoriteDataStoreManager.removeFavorite(_uiState.value.recipe?.id)
-            } else {
-                favoriteDataStoreManager.addFavorite(_uiState.value.recipe?.id)
+            _uiState.value.recipe?.id?.let { recipeId ->
+                if (_uiState.value.isFavorite) {
+                    favoriteDataStoreManager.removeFavorite(recipeId)
+                } else {
+                    favoriteDataStoreManager.addFavorite(recipeId)
+                }
             }
         }
     }

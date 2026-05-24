@@ -13,35 +13,28 @@ import ru.gmpopov.recipeapp.features.favorites.presentation.model.FavoritesUiSta
 
 class FavoritesViewModel(
     application: Application,
-    private val repository: RecipesRepositoryStub? = null,
 ) : AndroidViewModel(application) {
 
     private val favoriteDataStoreManager = FavoriteDataStoreManager(application)
+    private val repository = RecipesRepositoryStub
+
     val uiState: StateFlow<FavoritesUiState> =
         favoriteDataStoreManager.getFavoriteIdsFlow().map { favoriteIds ->
-            if (repository == null) {
+            try {
+                val recipes = favoriteIds.mapNotNull { id ->
+                    repository.getRecipeById(id.toInt())
+                }
+                FavoritesUiState(
+                    favoriteRecipes = recipes,
+                    isLoading = false,
+                    error = null
+                )
+            } catch (e: Exception) {
                 FavoritesUiState(
                     favoriteRecipes = emptyList(),
                     isLoading = false,
-                    error = "Репозиторий не инициализирован"
+                    error = "Ошибка загрузки данных",
                 )
-            } else {
-                try {
-                    val recipes = favoriteIds.mapNotNull { id ->
-                        repository.getRecipeById(id.toInt())
-                    }
-                    FavoritesUiState(
-                        favoriteRecipes = recipes,
-                        isLoading = false,
-                        error = null
-                    )
-                } catch (e: Exception) {
-                    FavoritesUiState(
-                        favoriteRecipes = emptyList(),
-                        isLoading = false,
-                        error = "Ошибка загрузки данных",
-                    )
-                }
             }
         }.stateIn(
             scope = viewModelScope,
