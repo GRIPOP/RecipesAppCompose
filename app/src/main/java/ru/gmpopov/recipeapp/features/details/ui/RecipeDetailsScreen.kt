@@ -9,7 +9,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,24 +20,17 @@ import ru.gmpopov.recipeapp.core.utils.MAX_PORTIONS
 import ru.gmpopov.recipeapp.core.utils.MIN_PORTIONS
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 
 @Composable
 fun RecipeDetailsScreen(
-    recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
     onFavoriteToggle: (Boolean) -> Unit = {},
 ) {
     val viewModel: RecipeDetailsViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-
-    LaunchedEffect(recipe) {
-        viewModel.initializeWithRecipe(recipe)
-    }
-
     val portionsText = pluralStringResource(
         R.plurals.portions_count,
         uiState.servings,
@@ -51,11 +43,19 @@ fun RecipeDetailsScreen(
             .verticalScroll(rememberScrollState())
     ) {
         ScreenHeader(
-            imagePainter = rememberAsyncImagePainter(recipe.imageUrl),
-            contentDescription = recipe.title,
-            title = recipe.title,
+            imagePainter = rememberAsyncImagePainter(uiState.recipe?.imageUrl ?: ""),
+            contentDescription = uiState.recipe?.title ?: "",
+            title = uiState.recipe?.title ?: "",
             showShareButton = true,
-            onShareClick = { shareRecipe(context, recipe.id, recipe.title) },
+            onShareClick = {
+                uiState.recipe?.let { recipe ->
+                    shareRecipe(
+                        context = context,
+                        recipeId = recipe.id,
+                        recipeTitle = recipe.title,
+                    )
+                }
+            },
             isFavorite = uiState.isFavorite,
             showFavoriteButton = true,
             onFavoriteClick = {
@@ -92,10 +92,12 @@ fun RecipeDetailsScreen(
             modifier = Modifier
                 .padding(Dimens.PaddingMain)
         ) {
-            uiState.scaledIngredients?.forEachIndexed { index, ingredient ->
-                IngredientItem(ingredient)
-                if (index < (uiState.scaledIngredients?.lastIndex ?: -1)) {
-                    HorizontalDivider()
+            uiState.scaledIngredients?.let { ingredients ->
+                ingredients.forEachIndexed { index, ingredient ->
+                    IngredientItem(ingredient)
+                    if (index < (ingredients.lastIndex)) {
+                        HorizontalDivider()
+                    }
                 }
             }
         }
@@ -104,12 +106,14 @@ fun RecipeDetailsScreen(
             modifier = Modifier
                 .padding(Dimens.PaddingMain)
         ) {
-            recipe.method.forEachIndexed { index, stepOfMethod ->
-                Text(
-                    text = "${index + 1}. $stepOfMethod"
-                )
-                if (index < recipe.method.lastIndex) {
-                    HorizontalDivider()
+            uiState.recipe?.let { recipe ->
+                recipe.method.forEachIndexed { index, stepOfMethod ->
+                    Text(
+                        text = "${index + 1}. $stepOfMethod"
+                    )
+                    if (index < recipe.method.lastIndex) {
+                        HorizontalDivider()
+                    }
                 }
             }
         }

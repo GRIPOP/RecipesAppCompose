@@ -102,14 +102,16 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("recipeId") { type = NavType.IntType },
                         )
                     ) { backStackEntry ->
-                        val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
-                        val recipe = RecipesRepositoryStub.getRecipeById(recipeId)
-                        recipe?.let { recipe ->
-                            RecipeDetailsScreen(
-                                recipe,
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
+//                        val recipeId = backStackEntry.arguments?.getInt("recipeId") ?: 0
+//                        val recipe = RecipesRepositoryStub.getRecipeById(recipeId)
+//                        recipe?.let {
+//                            RecipeDetailsScreen(
+//                                modifier = Modifier.padding(paddingValues)
+//                            )
+//                        }
+                        RecipeDetailsScreen(
+                            modifier = Modifier.padding(paddingValues)
+                        )
                     }
                 }
             },
