@@ -27,13 +27,18 @@ class MainActivity : ComponentActivity() {
             "Метод onCreate выполняется на потоке: ${Thread.currentThread().name}"
         )
         val thread = Thread {
+
+        }
+        thread.start()
+
+        threadPool.execute {
             var connection: HttpURLConnection? = null
 
             try {
                 val url = URL("https://recipes.androidsprint.ru/api/category")
                 connection = url.openConnection() as? HttpURLConnection ?: run {
                     Log.e("network", "Ошибка: openConnection вернула не HttpURLConnection")
-                    return@Thread
+                    return@execute
                 }
                 connection.connect()
 
@@ -54,17 +59,23 @@ class MainActivity : ComponentActivity() {
                 Log.d("api_response", "Body: $body")
 
                 val deserializedBody = Json.decodeFromString<List<CategoryDto>>(body)
+                deserializedBody.forEach { category ->
+                    threadPool.execute {
+
+                    }
+                }
                 Log.d(
                     "Deserialized_body",
-                    "Всего категорий: ${deserializedBody.size} ${deserializedBody.map { it.title }}"
+                    "Всего категорий: " +
+                            "${deserializedBody.size} ${deserializedBody.map { it.title }}"
                 )
+
             } catch (e: Exception) {
                 Log.e("network", "Ошибка: ${e.message}")
             } finally {
                 connection?.disconnect()
             }
         }
-        thread.start()
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
