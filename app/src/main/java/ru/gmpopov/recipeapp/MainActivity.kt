@@ -13,10 +13,13 @@ import ru.gmpopov.recipeapp.data.model.CategoryDto
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlinx.serialization.json.Json
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainActivity : ComponentActivity() {
 
     private var deepLinkIntent by mutableStateOf<Intent?>(null)
+    private val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(
@@ -71,6 +74,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             RecipesApp(deepLinkIntent = deepLinkIntent)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        threadPool.shutdown()
     }
 
     override fun onNewIntent(intent: Intent) {
