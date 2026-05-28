@@ -1,5 +1,8 @@
 package ru.gmpopov.recipeapp.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class RecipeDto(
     val id: Int,
     val title: String,
