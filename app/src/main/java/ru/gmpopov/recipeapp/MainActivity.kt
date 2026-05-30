@@ -16,6 +16,7 @@ import okhttp3.Request
 import ru.gmpopov.recipeapp.data.model.RecipeDto
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.concurrent.thread
 
 class MainActivity : ComponentActivity() {
 
@@ -29,14 +30,14 @@ class MainActivity : ComponentActivity() {
             "Метод onCreate выполняется на потоке: ${Thread.currentThread().name}"
         )
 
-        threadPool.execute {
+        thread {
             try {
                 val categoryRequest: Request = Request.Builder()
                     .url("https://recipes.androidsprint.ru/api/category")
                     .build()
 
                 val responseCategory = okHttpClient.newCall(categoryRequest).execute()
-                val categoryBody = responseCategory.body.string()
+                val categoryBody = responseCategory.body?.string() ?: ""
                 val deserializedCategory = Json.decodeFromString<List<CategoryDto>>(categoryBody)
 
                 Log.d(
@@ -57,7 +58,7 @@ class MainActivity : ComponentActivity() {
                                 .build()
 
                             val responseRecipe = okHttpClient.newCall(recipeRequest).execute()
-                            val recipesBody = responseRecipe.body.string()
+                            val recipesBody = responseRecipe.body?.string() ?: ""
                             val deserializedRecipe =
                                 Json.decodeFromString<List<RecipeDto>>(recipesBody)
 
@@ -92,7 +93,6 @@ class MainActivity : ComponentActivity() {
             RecipesApp(deepLinkIntent = deepLinkIntent)
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
