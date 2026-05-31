@@ -14,14 +14,11 @@ import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.gmpopov.recipeapp.data.model.RecipeDto
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import kotlin.concurrent.thread
 
 class MainActivity : ComponentActivity() {
 
     private var deepLinkIntent by mutableStateOf<Intent?>(null)
-    private val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
     private val okHttpClient = OkHttpClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +48,7 @@ class MainActivity : ComponentActivity() {
                 )
 
                 deserializedCategory.forEach { category ->
-                    threadPool.execute {
+                    thread {
                         try {
                             val recipeRequest = Request.Builder()
                                 .url("https://recipes.androidsprint.ru/api/category/${category.id}/recipes")
@@ -92,11 +89,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             RecipesApp(deepLinkIntent = deepLinkIntent)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        threadPool.shutdown()
     }
 
     override fun onNewIntent(intent: Intent) {

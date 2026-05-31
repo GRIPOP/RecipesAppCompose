@@ -58,7 +58,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.3.0"))
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.3.2"))
     implementation("com.squareup.okhttp3:okhttp")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
