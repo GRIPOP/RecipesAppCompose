@@ -7,7 +7,9 @@ import ru.gmpopov.recipeapp.core.network.api.RecipesApiService
 import ru.gmpopov.recipeapp.data.model.CategoryDto
 import ru.gmpopov.recipeapp.data.model.RecipeDto
 
-class RecipesRepositoryImpl(private val apiService: RecipesApiService) : RecipesRepository {
+class RecipesRepositoryImpl(
+    private val apiService: RecipesApiService
+) : RecipesRepository {
 
     override suspend fun getCategories(): List<CategoryDto> {
         return withContext(Dispatchers.IO) {
