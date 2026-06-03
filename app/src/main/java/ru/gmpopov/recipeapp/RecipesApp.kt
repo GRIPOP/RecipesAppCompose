@@ -36,12 +36,10 @@ import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
 
-    val contentType: MediaType = remember { "application/json".toMediaType() }
-    val json = remember {
-        Json {
-            coerceInputValues = true
-            ignoreUnknownKeys = true
-        }
+    val contentType: MediaType = "application/json".toMediaType()
+    val json = Json {
+        coerceInputValues = true
+        ignoreUnknownKeys = true
     }
     val retrofit: Retrofit = remember {
         Retrofit.Builder()
