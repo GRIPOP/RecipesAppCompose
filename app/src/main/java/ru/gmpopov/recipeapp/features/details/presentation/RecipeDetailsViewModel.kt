@@ -53,7 +53,7 @@ class RecipeDetailsViewModel(
                 _uiState.update { currentRecipeDetailsUiState ->
                     currentRecipeDetailsUiState.copy(
                         recipe = loadedRecipe.toUiModel(),
-                        servings = loadedRecipe?.servings ?: 1,
+                        servings = loadedRecipe.servings,
                         isLoading = false,
                         error = null,
                     )
