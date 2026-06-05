@@ -10,12 +10,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
-import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
+import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.details.presentation.model.RecipeDetailsUiState
+import ru.gmpopov.recipeapp.features.recipes.presentation.model.toUiModel
 
 class RecipeDetailsViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,
+    private val repository: RecipesRepository,
 ) : AndroidViewModel(application) {
     private val recipeId = savedStateHandle.get<Int>("recipeId")
         ?: throw IllegalArgumentException("recipeId is required")
@@ -47,11 +49,11 @@ class RecipeDetailsViewModel(
             }
 
             try {
-                val loadedRecipe = RecipesRepositoryStub.getRecipeById(recipeId)
+                val loadedRecipe = repository.getRecipe(recipeId)
                 _uiState.update { currentRecipeDetailsUiState ->
                     currentRecipeDetailsUiState.copy(
-                        recipe = loadedRecipe,
-                        servings = loadedRecipe?.servings ?: 1,
+                        recipe = loadedRecipe.toUiModel(),
+                        servings = loadedRecipe.servings,
                         isLoading = false,
                         error = null,
                     )
@@ -66,15 +68,6 @@ class RecipeDetailsViewModel(
             }
         }
     }
-
-//    fun initializeWithRecipe(recipe: RecipeUiModel) {
-//        _uiState.update { currentRecipeDetailsUiState ->
-//            currentRecipeDetailsUiState.copy(
-//                recipe = recipe,
-//                servings = recipe.servings,
-//            )
-//        }
-//    }
 
     fun toggleFavorite() {
         viewModelScope.launch {

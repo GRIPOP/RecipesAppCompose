@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import ru.gmpopov.recipeapp.core.utils.MAX_PORTIONS
 import ru.gmpopov.recipeapp.core.utils.MIN_PORTIONS
@@ -27,8 +26,8 @@ import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 fun RecipeDetailsScreen(
     modifier: Modifier = Modifier,
     onFavoriteToggle: (Boolean) -> Unit = {},
+    viewModel: RecipeDetailsViewModel,
 ) {
-    val viewModel: RecipeDetailsViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val portionsText = pluralStringResource(

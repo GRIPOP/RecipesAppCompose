@@ -7,16 +7,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
+import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.categories.presentation.model.CategoriesUiState
 import ru.gmpopov.recipeapp.features.categories.presentation.model.toUiModel
 
-class CategoriesViewModel : ViewModel() {
+class CategoriesViewModel(private val recipeRepository: RecipesRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CategoriesUiState())
     val uiState: StateFlow<CategoriesUiState> = _uiState.asStateFlow()
 
+
     init {
+        loadCategories()
+    }
+
+    fun loadCategories() {
         _uiState.update { currentState ->
             currentState.copy(isLoading = true)
         }
@@ -24,7 +29,7 @@ class CategoriesViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val categories =
-                    RecipesRepositoryStub.getCategories()
+                    recipeRepository.getCategories()
                         .map { categoryDto -> categoryDto.toUiModel() }
 
                 _uiState.update { currentState ->

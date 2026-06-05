@@ -23,8 +23,8 @@ import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 fun RecipesScreen(
     onRecipeClick: (Int, RecipeUiModel) -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: RecipesViewModel,
 ) {
-    val viewModel: RecipesViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
 
     when {
