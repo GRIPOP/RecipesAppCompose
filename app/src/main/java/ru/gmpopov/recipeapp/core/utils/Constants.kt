@@ -10,3 +10,5 @@ const val MAX_PORTIONS = 12f
 const val MIN_PORTIONS = 1f
 
 const val PREFS_FILE_NAME = "recipe_app_prefs"
+
+const val IMAGES_BASE_URL = "https://recipes.androidsprint.ru/api/images/"
