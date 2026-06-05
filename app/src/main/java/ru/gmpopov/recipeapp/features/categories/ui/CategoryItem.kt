@@ -40,7 +40,6 @@ fun CategoryItem(
             contentScale = ContentScale.Crop,
             placeholder = painterResource(R.drawable.ic_launcher_foreground),
             error = painterResource(R.drawable.ic_launcher_foreground)
-
         )
 
         Text(
