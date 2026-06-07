@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.9.7")
+    implementation("androidx.navigation:navigation-compose:2.9.8")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -60,13 +60,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.3.0"))
-    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:5.3.2"))
+    implementation("com.squareup.retrofit2:converter-kotlinx-serialization:3.0.0")
     implementation("com.squareup.okhttp3:okhttp")
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
     testImplementation(libs.junit)
-    implementation("com.squareup.okhttp3:logging-interceptor:5.3.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
