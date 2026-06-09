@@ -17,6 +17,8 @@ import androidx.navigation.navArgument
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import ru.gmpopov.recipeapp.core.ui.navigation.BottomNavigation
@@ -32,6 +34,7 @@ import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryImpl
 import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
@@ -43,10 +46,27 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
             ignoreUnknownKeys = true
         }
     }
+
+    val okHttpClient = remember {
+        OkHttpClient.Builder()
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.NONE
+                }
+            })
+            .build()
+    }
+
     val retrofit: Retrofit = remember {
         Retrofit.Builder()
             .baseUrl(NetworkConfig.BASE_URL)
             .addConverterFactory(json.asConverterFactory(contentType))
+            .client(okHttpClient)
             .build()
     }
 
