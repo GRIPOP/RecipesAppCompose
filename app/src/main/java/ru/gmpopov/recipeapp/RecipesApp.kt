@@ -39,10 +39,12 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
 
-    val contentType: MediaType = "application/json".toMediaType()
-    val json = Json {
-        coerceInputValues = true
-        ignoreUnknownKeys = true
+    val contentType: MediaType = remember { "application/json".toMediaType() }
+    val json = remember {
+        Json {
+            coerceInputValues = true
+            ignoreUnknownKeys = true
+        }
     }
 
     val okHttpClient = remember {
