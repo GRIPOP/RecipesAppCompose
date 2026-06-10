@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import ru.gmpopov.recipeapp.data.database.converter.Converters
 import ru.gmpopov.recipeapp.data.database.dao.CategoryDao
 import ru.gmpopov.recipeapp.data.database.dao.RecipeDao
 import ru.gmpopov.recipeapp.data.database.entity.CategoryEntity
 import ru.gmpopov.recipeapp.data.database.entity.RecipeEntity
 
-@TypeConverters
+@TypeConverters(Converters::class)
 @Database(
     entities = [
         CategoryEntity::class,
