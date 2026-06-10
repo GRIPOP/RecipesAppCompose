@@ -1,7 +1,9 @@
 package ru.gmpopov.recipeapp.core.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -17,16 +19,25 @@ fun RecipeImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
+    val context = LocalContext.current
+
     SubcomposeAsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(imageUrl)
-            .crossfade(true)
-            .size(200, 200)
-            .build(),
+        model = remember(imageUrl) {
+            ImageRequest.Builder(context)
+                .data(imageUrl)
+                .crossfade(true)
+                .size(200, 200)
+                .build()
+        },
         contentDescription = contentDescription,
         loading = { CircularProgressIndicator() },
-        error = { painterResource(R.drawable.ic_launcher_foreground) },
+        error = {
+            Image(
+                painterResource(R.drawable.ic_launcher_foreground),
+                contentDescription = null
+            )
+        },
         contentScale = contentScale,
         modifier = modifier,
-        )
+    )
 }
