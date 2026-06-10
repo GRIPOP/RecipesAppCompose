@@ -4,16 +4,26 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import ru.gmpopov.recipeapp.data.database.dao.CategoryDao
+import ru.gmpopov.recipeapp.data.database.dao.RecipeDao
 import ru.gmpopov.recipeapp.data.database.entity.CategoryEntity
+import ru.gmpopov.recipeapp.data.database.entity.RecipeEntity
 
+@TypeConverters
 @Database(
-    entities = [CategoryEntity::class],
-    version = 1,
+    entities = [
+        CategoryEntity::class,
+        RecipeEntity::class
+    ],
+    version = 2,
     exportSchema = false,
 )
 abstract class RecipesDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
+
+    abstract fun recipeDao(): RecipeDao
 
     companion object {
         fun buildDatabase(context: Context): RecipesDatabase {
