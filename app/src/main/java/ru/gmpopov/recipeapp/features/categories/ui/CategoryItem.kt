@@ -11,10 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import coil.compose.AsyncImage
-import ru.gmpopov.recipeapp.R
+import ru.gmpopov.recipeapp.core.ui.RecipeImage
 import ru.gmpopov.recipeapp.features.categories.presentation.model.CategoryUiModel
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 
@@ -32,15 +29,11 @@ fun CategoryItem(
         elevation = CardDefaults.cardElevation(Dimens.CardElevation),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        AsyncImage(
-            model = category.imageUrl,
+        RecipeImage(
+            imageUrl = category.imageUrl,
             contentDescription = category.title,
             modifier = Modifier
                 .aspectRatio(Dimens.CategoryImageAspectRatio),
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(R.drawable.ic_launcher_foreground),
-            error = painterResource(R.drawable.ic_launcher_foreground)
-
         )
 
         Text(

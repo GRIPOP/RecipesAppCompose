@@ -1,7 +1,7 @@
 package ru.gmpopov.recipeapp.features.categories.presentation.model
 
 import androidx.compose.runtime.Immutable
-import ru.gmpopov.recipeapp.core.utils.ASSETS_URI_PREFIX
+import ru.gmpopov.recipeapp.core.utils.IMAGES_BASE_URL
 import ru.gmpopov.recipeapp.data.model.CategoryDto
 
 @Immutable
@@ -16,5 +16,5 @@ fun CategoryDto.toUiModel() = CategoryUiModel(
     id = id,
     title = title,
     description = description,
-    imageUrl = if (imageUrl.startsWith("http")) imageUrl else ASSETS_URI_PREFIX + imageUrl,
+    imageUrl = if (imageUrl.startsWith("http")) imageUrl else IMAGES_BASE_URL + imageUrl,
 )
