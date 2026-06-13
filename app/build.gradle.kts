@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("plugin.serialization") version "2.4.0"
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -67,6 +68,9 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization)
     implementation("io.coil-kt.coil3:coil-compose:3.4.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.4.0")
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
     testImplementation(libs.junit)
     implementation(libs.logging.interceptor)
     androidTestImplementation(libs.androidx.junit)
