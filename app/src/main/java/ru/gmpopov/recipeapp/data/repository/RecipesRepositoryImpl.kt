@@ -28,23 +28,22 @@ class RecipesRepositoryImpl(
                 val categories = apiService.getCategories().map { it.toEntity() }
                 categoryDao.insertOrUpdateCategory(categories)
             } catch (e: Exception) {
-                Log.e("error_category", "$e")
+                Log.e("error_loading_categories", "$e")
             }
         }
         return categoryDao.getAllCategories().map { it -> it.map { it.toDto() } }
     }
 
-    override suspend fun getRecipesByCategory(categoryId: Int): List<RecipeDto> {
-        return withContext(Dispatchers.IO) {
+    override fun getRecipesByCategory(categoryId: Int): Flow<List<RecipeDto>> {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
-                apiService.getRecipesByCategory(categoryId)
-
+                val recipes = apiService.getRecipesByCategory(categoryId).map { it.toEntity() }
+                recipeDao.insertRecipes(recipes)
             } catch (e: Exception) {
-                Log.e("error_recipes", "$e")
-                return@withContext emptyList()
+                Log.e("error_loading_recipes", "$e")
             }
         }
-
+        return recipeDao.getAllRecipes(categoryId).map { it -> it.map { it.toDto() } }
     }
 
     override suspend fun getRecipe(recipeId: Int): RecipeDto {
