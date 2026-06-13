@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.data.repository.RecipesRepository
@@ -42,13 +44,17 @@ class RecipesViewModel(
 
         viewModelScope.launch {
             try {
-                val recipes = repository.getRecipesByCategory(categoryId).map { it.toUiModel() }
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        recipes = recipes,
-                        isLoading = false,
-                    )
-                }
+                repository.getRecipesByCategory(categoryId)
+                    .map { recipeDto -> recipeDto.map { it.toUiModel() } }
+                    .collect { recipes ->
+
+                        _uiState.update { currentState ->
+                            currentState.copy(
+                                recipes = recipes,
+                                isLoading = false,
+                            )
+                        }
+                    }
 
             } catch (e: Exception) {
                 _uiState.update { currentState ->
