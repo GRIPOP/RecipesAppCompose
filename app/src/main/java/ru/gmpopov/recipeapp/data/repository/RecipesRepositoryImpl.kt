@@ -4,12 +4,17 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.gmpopov.recipeapp.core.network.api.RecipesApiService
+import ru.gmpopov.recipeapp.data.database.RecipesDatabase
 import ru.gmpopov.recipeapp.data.model.CategoryDto
 import ru.gmpopov.recipeapp.data.model.RecipeDto
 
 class RecipesRepositoryImpl(
-    private val apiService: RecipesApiService
+    private val apiService: RecipesApiService,
+    database: RecipesDatabase,
 ) : RecipesRepository {
+
+    private val categoryDao = database.categoryDao()
+    private val recipeDao = database.recipeDao()
 
     override suspend fun getCategories(): List<CategoryDto> {
         return withContext(Dispatchers.IO) {
