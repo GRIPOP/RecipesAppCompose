@@ -1,6 +1,7 @@
 package ru.gmpopov.recipeapp.data.model
 
 import kotlinx.serialization.Serializable
+import ru.gmpopov.recipeapp.data.database.entity.CategoryEntity
 
 @Serializable
 data class CategoryDto(
@@ -8,4 +9,18 @@ data class CategoryDto(
     val title: String,
     val description: String,
     val imageUrl: String,
+)
+
+fun CategoryDto.toEntity() = CategoryEntity(
+    id = id,
+    name = title,
+    description = description,
+    imageUrl = imageUrl,
+)
+
+fun CategoryEntity.toDto() = CategoryDto(
+    id = id,
+    title = name,
+    description = description,
+    imageUrl = imageUrl,
 )
