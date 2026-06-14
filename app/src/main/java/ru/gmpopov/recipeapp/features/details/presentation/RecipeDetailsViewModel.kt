@@ -49,7 +49,9 @@ class RecipeDetailsViewModel(
             }
 
             try {
-                val loadedRecipe = repository.getRecipe(recipeId)
+                val loadedRecipe = repository
+                    .getRecipe(recipeId)
+
                 _uiState.update { currentRecipeDetailsUiState ->
                     currentRecipeDetailsUiState.copy(
                         recipe = loadedRecipe.toUiModel(),
