@@ -27,7 +27,23 @@ class RecipeDetailsViewModel(
     val uiState: StateFlow<RecipeDetailsUiState> = _uiState.asStateFlow()
 
     init {
-        loadRecipe(recipeId)
+        viewModelScope.launch {
+            repository.getRecipe(recipeId).collect { recipeDto ->
+                if (recipeDto != null) {
+                    val recipeUi = recipeDto.toUiModel()
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            recipe = recipeUi,
+                            isLoading = false,
+                        )
+                    }
+                } else {
+                    _uiState.update { currentState ->
+                        currentState.copy(isLoading = true)
+                    }
+                }
+            }
+        }
 
         viewModelScope.launch {
             favoriteDataStoreManager.getFavoriteIdsFlow().collect { favoriteIds ->
@@ -36,35 +52,6 @@ class RecipeDetailsViewModel(
                         isFavorite = currentRecipeDetailsUiState.recipe?.id?.let { id ->
                             favoriteIds.contains(id.toString())
                         } ?: false
-                    )
-                }
-            }
-        }
-    }
-
-    fun loadRecipe(recipeId: Int) {
-        viewModelScope.launch {
-            _uiState.update { currentRecipeDetailsUiState ->
-                currentRecipeDetailsUiState.copy(isLoading = true)
-            }
-
-            try {
-                val loadedRecipe = repository
-                    .getRecipe(recipeId)
-
-                _uiState.update { currentRecipeDetailsUiState ->
-                    currentRecipeDetailsUiState.copy(
-                        recipe = loadedRecipe.toUiModel(),
-                        servings = loadedRecipe.servings,
-                        isLoading = false,
-                        error = null,
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update { currentRecipeDetailsUiState ->
-                    currentRecipeDetailsUiState.copy(
-                        error = "Ошибка загрузки: ${e.message}",
-                        isLoading = false,
                     )
                 }
             }
