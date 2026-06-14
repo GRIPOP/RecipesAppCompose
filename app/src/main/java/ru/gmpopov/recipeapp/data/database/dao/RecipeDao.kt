@@ -12,7 +12,7 @@ interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipes(recipes: List<RecipeEntity>)
 
-    @Query("SELECT * FROM recipes WHERE categoryId = :categoryId")
+    @Query("SELECT * FROM recipes WHERE category_id = :categoryId")
     fun getAllRecipes(categoryId: Int): Flow<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE id = :recipeId")
