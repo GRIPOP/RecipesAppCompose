@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ru.gmpopov.recipeapp.data.database.entity.CategoryEntity
-import ru.gmpopov.recipeapp.data.database.entity.RecipeEntity
 
 @Dao
 interface CategoryDao {
