@@ -33,6 +33,7 @@ import ru.gmpopov.recipeapp.core.ui.theme.RecipeAppTheme
 import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
 import ru.gmpopov.recipeapp.data.database.RecipesDatabase
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryImpl
+import ru.gmpopov.recipeapp.features.categories.presentation.CategoriesViewModel
 import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 import java.util.concurrent.TimeUnit
@@ -109,7 +110,11 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                     startDestination = Destination.Categories.route,
                 ) {
                     composable(route = Destination.Categories.route) {
+                        val categoryViewModel = remember {
+                            CategoriesViewModel(recipesRepositoryImpl)
+                        }
                         CategoriesScreen(
+                            viewModel = categoryViewModel,
                             modifier = Modifier.padding(paddingValues),
                             onCategoryClick = { categoryId, categoryTitle, categoryImageUrl ->
                                 navController.navigate(
@@ -120,7 +125,6 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                                     )
                                 )
                             },
-                            repository = recipesRepositoryImpl,
                         )
                     }
 
@@ -143,8 +147,8 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                     ) { backStackEntry ->
                         val recipesViewModel = remember(backStackEntry) {
                             RecipesViewModel(
-                                backStackEntry.savedStateHandle,
-                                recipesRepositoryImpl
+                                savedStateHandle = backStackEntry.savedStateHandle,
+                                repository = recipesRepositoryImpl,
                             )
                         }
                         RecipesScreen(

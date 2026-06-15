@@ -49,7 +49,9 @@ class RecipesRepositoryImpl(
     override fun getRecipe(recipeId: Int): Flow<RecipeDto?> {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                apiService.getRecipe(recipeId)
+                apiService.getRecipe(recipeId).let { recipe ->
+                    recipeDao.insertRecipes(listOf(recipe.toEntity(recipeId)))
+                }
 
             } catch (e: Exception) {
                 Log.e("error_loading_recipe", "$e")
