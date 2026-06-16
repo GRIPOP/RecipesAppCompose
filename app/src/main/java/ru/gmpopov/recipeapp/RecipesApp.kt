@@ -31,6 +31,7 @@ import ru.gmpopov.recipeapp.features.favorites.ui.FavoritesScreen
 import ru.gmpopov.recipeapp.features.recipes.ui.RecipesScreen
 import ru.gmpopov.recipeapp.core.ui.theme.RecipeAppTheme
 import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
+import ru.gmpopov.recipeapp.data.database.RecipesDatabase
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryImpl
 import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
@@ -46,6 +47,11 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
             ignoreUnknownKeys = true
         }
     }
+    
+    val context = LocalContext.current
+
+    val database = remember { RecipesDatabase.buildDatabase(context) }
+
 
     val okHttpClient = remember {
         OkHttpClient.Builder()
@@ -73,7 +79,7 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
     val apiService = remember { retrofit.create(RecipesApiService::class.java) }
 
     val recipesRepositoryImpl: RecipesRepositoryImpl =
-        remember { RecipesRepositoryImpl(apiService) }
+        remember { RecipesRepositoryImpl(apiService, database) }
 
     RecipeAppTheme {
         val navController = rememberNavController()
