@@ -12,7 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
 import ru.gmpopov.recipeapp.features.recipes.ui.RecipeItem
 import ru.gmpopov.recipeapp.features.favorites.presentation.FavoritesViewModel
 

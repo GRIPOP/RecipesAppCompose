@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
