@@ -14,7 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.SavedStateHandle
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
+import ru.gmpopov.recipeapp.di.CategoriesViewModelFactory
+import ru.gmpopov.recipeapp.di.RecipeApplication
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 
@@ -24,6 +28,7 @@ fun RecipesScreen(
     modifier: Modifier = Modifier,
     viewModel: RecipesViewModel,
 ) {
+
     val uiState by viewModel.uiState.collectAsState()
 
     when {

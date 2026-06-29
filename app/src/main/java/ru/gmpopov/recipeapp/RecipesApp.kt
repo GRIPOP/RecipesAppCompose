@@ -14,73 +14,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import ru.gmpopov.recipeapp.core.ui.navigation.BottomNavigation
 import ru.gmpopov.recipeapp.core.navigation.Destination
-import ru.gmpopov.recipeapp.core.network.NetworkConfig
-import ru.gmpopov.recipeapp.core.network.api.RecipesApiService
 import ru.gmpopov.recipeapp.features.categories.ui.CategoriesScreen
 import ru.gmpopov.recipeapp.features.details.ui.RecipeDetailsScreen
 import ru.gmpopov.recipeapp.features.favorites.ui.FavoritesScreen
 import ru.gmpopov.recipeapp.features.recipes.ui.RecipesScreen
 import ru.gmpopov.recipeapp.core.ui.theme.RecipeAppTheme
 import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
-import ru.gmpopov.recipeapp.data.database.RecipesDatabase
-import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryImpl
-import ru.gmpopov.recipeapp.features.categories.presentation.CategoriesViewModel
-import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
-import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
-import java.util.concurrent.TimeUnit
+import ru.gmpopov.recipeapp.di.RecipeApplication
+import ru.gmpopov.recipeapp.di.RecipeDetailsViewModelFactory
+import ru.gmpopov.recipeapp.di.RecipesViewModelFactory
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
-
-    val contentType: MediaType = remember { "application/json".toMediaType() }
-    val json = remember {
-        Json {
-            coerceInputValues = true
-            ignoreUnknownKeys = true
-        }
-    }
-    
-    val context = LocalContext.current
-
-    val database = remember { RecipesDatabase.buildDatabase(context) }
-
-
-    val okHttpClient = remember {
-        OkHttpClient.Builder()
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = if (BuildConfig.DEBUG) {
-                    HttpLoggingInterceptor.Level.BODY
-                } else {
-                    HttpLoggingInterceptor.Level.NONE
-                }
-            })
-            .build()
-    }
-
-    val retrofit: Retrofit = remember {
-        Retrofit.Builder()
-            .baseUrl(NetworkConfig.BASE_URL)
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .client(okHttpClient)
-            .build()
-    }
-
-    val apiService = remember { retrofit.create(RecipesApiService::class.java) }
-
-    val recipesRepositoryImpl: RecipesRepositoryImpl =
-        remember { RecipesRepositoryImpl(apiService, database) }
 
     RecipeAppTheme {
         val navController = rememberNavController()
@@ -110,11 +57,7 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                     startDestination = Destination.Categories.route,
                 ) {
                     composable(route = Destination.Categories.route) {
-                        val categoryViewModel = remember {
-                            CategoriesViewModel(recipesRepositoryImpl)
-                        }
                         CategoriesScreen(
-                            viewModel = categoryViewModel,
                             modifier = Modifier.padding(paddingValues),
                             onCategoryClick = { categoryId, categoryTitle, categoryImageUrl ->
                                 navController.navigate(
@@ -145,11 +88,9 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("categoryImageUrl") { type = NavType.StringType },
                         ),
                     ) { backStackEntry ->
+                        val appContainer = (LocalContext.current.applicationContext as RecipeApplication).appContainer
                         val recipesViewModel = remember(backStackEntry) {
-                            RecipesViewModel(
-                                savedStateHandle = backStackEntry.savedStateHandle,
-                                repository = recipesRepositoryImpl,
-                            )
+                            RecipesViewModelFactory(backStackEntry.savedStateHandle,appContainer.recipesRepository).create()
                         }
                         RecipesScreen(
                             onRecipeClick = { recipeId, _ ->
@@ -168,13 +109,14 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("recipeId") { type = NavType.IntType },
                         )
                     ) { backStackEntry ->
-                        val context = LocalContext.current
+                        val application = LocalContext.current.applicationContext as RecipeApplication
+                        val appContainer = application.appContainer
                         val recipeDetailsViewModel = remember(backStackEntry) {
-                            RecipeDetailsViewModel(
-                                context.applicationContext as Application,
+                            RecipeDetailsViewModelFactory(
+                                application,
                                 backStackEntry.savedStateHandle,
-                                recipesRepositoryImpl
-                            )
+                                appContainer.recipesRepository
+                            ).create()
                         }
                         RecipeDetailsScreen(
                             modifier = Modifier.padding(paddingValues),
