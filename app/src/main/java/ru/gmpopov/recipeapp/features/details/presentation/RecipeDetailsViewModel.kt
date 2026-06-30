@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.details.presentation.model.RecipeDetailsUiState
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.toUiModel
 
+@HiltViewModel
 class RecipeDetailsViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,

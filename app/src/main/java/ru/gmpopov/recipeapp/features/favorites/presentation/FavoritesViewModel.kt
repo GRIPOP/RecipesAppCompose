@@ -3,6 +3,7 @@ package ru.gmpopov.recipeapp.features.favorites.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -11,6 +12,7 @@ import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
 import ru.gmpopov.recipeapp.data.repository.RecipesRepositoryStub
 import ru.gmpopov.recipeapp.features.favorites.presentation.model.FavoritesUiState
 
+@HiltViewModel
 class FavoritesViewModel(
     application: Application,
 ) : AndroidViewModel(application) {

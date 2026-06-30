@@ -2,6 +2,7 @@ package ru.gmpopov.recipeapp.features.categories.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,6 +13,7 @@ import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.categories.presentation.model.CategoriesUiState
 import ru.gmpopov.recipeapp.features.categories.presentation.model.toUiModel
 
+@HiltViewModel
 class CategoriesViewModel(private val recipeRepository: RecipesRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CategoriesUiState())
