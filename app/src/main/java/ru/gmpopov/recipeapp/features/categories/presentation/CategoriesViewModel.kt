@@ -12,9 +12,11 @@ import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.categories.presentation.model.CategoriesUiState
 import ru.gmpopov.recipeapp.features.categories.presentation.model.toUiModel
+import javax.inject.Inject
 
 @HiltViewModel
-class CategoriesViewModel(private val recipeRepository: RecipesRepository) : ViewModel() {
+class CategoriesViewModel @Inject constructor(private val recipeRepository: RecipesRepository) :
+    ViewModel() {
 
     private val _uiState = MutableStateFlow(CategoriesUiState())
     val uiState: StateFlow<CategoriesUiState> = _uiState.asStateFlow()

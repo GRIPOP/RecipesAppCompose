@@ -14,9 +14,10 @@ import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipesUiState
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.toUiModel
+import javax.inject.Inject
 
 @HiltViewModel
-class RecipesViewModel(
+class RecipesViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val repository: RecipesRepository,
 ) : ViewModel() {

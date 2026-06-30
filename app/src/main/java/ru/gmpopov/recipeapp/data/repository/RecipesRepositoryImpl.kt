@@ -12,8 +12,9 @@ import ru.gmpopov.recipeapp.data.model.CategoryDto
 import ru.gmpopov.recipeapp.data.model.RecipeDto
 import ru.gmpopov.recipeapp.data.model.toDto
 import ru.gmpopov.recipeapp.data.model.toEntity
+import javax.inject.Inject
 
-class RecipesRepositoryImpl(
+class RecipesRepositoryImpl @Inject constructor(
     private val apiService: RecipesApiService,
     database: RecipesDatabase,
 ) : RecipesRepository {

@@ -3,6 +3,7 @@ package ru.gmpopov.recipeapp.features.details.presentation
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,16 +15,16 @@ import ru.gmpopov.recipeapp.data.FavoriteDataStoreManager
 import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.details.presentation.model.RecipeDetailsUiState
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.toUiModel
+import javax.inject.Inject
 
 @HiltViewModel
-class RecipeDetailsViewModel(
-    application: Application,
+class RecipeDetailsViewModel @Inject constructor(
+    val favoriteDataStoreManager: FavoriteDataStoreManager,
     savedStateHandle: SavedStateHandle,
     private val repository: RecipesRepository,
-) : AndroidViewModel(application) {
+) : ViewModel() {
     private val recipeId = savedStateHandle.get<Int>("recipeId")
         ?: throw IllegalArgumentException("recipeId is required")
-    private val favoriteDataStoreManager = FavoriteDataStoreManager(application)
     private val _uiState =
         MutableStateFlow(RecipeDetailsUiState())
     val uiState: StateFlow<RecipeDetailsUiState> = _uiState.asStateFlow()
