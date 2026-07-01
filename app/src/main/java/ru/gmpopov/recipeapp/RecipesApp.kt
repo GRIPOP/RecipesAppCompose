@@ -1,6 +1,5 @@
 package ru.gmpopov.recipeapp
 
-import android.app.Application
 import android.content.Intent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -88,10 +87,17 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("categoryImageUrl") { type = NavType.StringType },
                         ),
                     ) { backStackEntry ->
-                        val appContainer = (LocalContext.current.applicationContext as RecipeApplication).appContainer
+                        val appContainer =
+                            (LocalContext.current.applicationContext as? RecipeApplication)?.appContainer
                         val recipesViewModel = remember(backStackEntry) {
-                            RecipesViewModelFactory(backStackEntry.savedStateHandle,appContainer.recipesRepository).create()
+                            appContainer?.let {
+                                RecipesViewModelFactory(
+                                    backStackEntry.savedStateHandle,
+                                    appContainer.recipesRepository,
+                                ).create()
+                            } ?: error("AppContainer is null")
                         }
+
                         RecipesScreen(
                             onRecipeClick = { recipeId, _ ->
                                 navController.navigate(
@@ -109,14 +115,17 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("recipeId") { type = NavType.IntType },
                         )
                     ) { backStackEntry ->
-                        val application = LocalContext.current.applicationContext as RecipeApplication
-                        val appContainer = application.appContainer
+                        val application =
+                            LocalContext.current.applicationContext as? RecipeApplication
+                        val appContainer = application?.appContainer
                         val recipeDetailsViewModel = remember(backStackEntry) {
-                            RecipeDetailsViewModelFactory(
-                                application,
-                                backStackEntry.savedStateHandle,
-                                appContainer.recipesRepository
-                            ).create()
+                            appContainer?.let {
+                                RecipeDetailsViewModelFactory(
+                                    application,
+                                    backStackEntry.savedStateHandle,
+                                    appContainer.recipesRepository,
+                                ).create()
+                            } ?: error("AppContainer is null")
                         }
                         RecipeDetailsScreen(
                             modifier = Modifier.padding(paddingValues),

@@ -24,16 +24,18 @@ import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 import ru.gmpopov.recipeapp.di.CategoriesViewModelFactory
 import ru.gmpopov.recipeapp.di.RecipeApplication
-import ru.gmpopov.recipeapp.features.categories.presentation.CategoriesViewModel
 
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
     onCategoryClick: (Int, String, String) -> Unit,
 ) {
-    val appContainer = (LocalContext.current.applicationContext as RecipeApplication).appContainer
+    val appContainer = (LocalContext.current.applicationContext as? RecipeApplication)?.appContainer
 
-    val viewModel = remember { CategoriesViewModelFactory(appContainer.recipesRepository).create() }
+    val viewModel = remember {
+        appContainer?.let { CategoriesViewModelFactory(appContainer.recipesRepository).create() }
+            ?: error("AppContainer is null")
+    }
 
     val uiState by viewModel.uiState.collectAsState()
 

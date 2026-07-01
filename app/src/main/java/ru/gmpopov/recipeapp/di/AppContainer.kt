@@ -39,7 +39,7 @@ class AppContainer(context: Context) {
 
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(NetworkConfig.BASE_URL)
-        .addConverterFactory(Json.asConverterFactory(contentType))
+        .addConverterFactory(json.asConverterFactory(contentType))
         .client(okHttpClient)
         .build()
 
