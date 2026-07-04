@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.SavedStateHandle
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.di.CategoriesViewModelFactory
 import ru.gmpopov.recipeapp.di.RecipeApplication
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel

@@ -5,9 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,9 +20,8 @@ import ru.gmpopov.recipeapp.features.favorites.ui.FavoritesScreen
 import ru.gmpopov.recipeapp.features.recipes.ui.RecipesScreen
 import ru.gmpopov.recipeapp.core.ui.theme.RecipeAppTheme
 import ru.gmpopov.recipeapp.core.utils.DEEP_LINK_SCHEME
-import ru.gmpopov.recipeapp.di.RecipeApplication
-import ru.gmpopov.recipeapp.di.RecipeDetailsViewModelFactory
-import ru.gmpopov.recipeapp.di.RecipesViewModelFactory
+import ru.gmpopov.recipeapp.features.details.presentation.RecipeDetailsViewModel
+import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 
 @Composable
 fun RecipesApp(deepLinkIntent: Intent? = null) {
@@ -86,18 +84,8 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                             navArgument("categoryTitle") { type = NavType.StringType },
                             navArgument("categoryImageUrl") { type = NavType.StringType },
                         ),
-                    ) { backStackEntry ->
-                        val appContainer =
-                            (LocalContext.current.applicationContext as? RecipeApplication)?.appContainer
-                        val recipesViewModel = remember(backStackEntry) {
-                            appContainer?.let {
-                                RecipesViewModelFactory(
-                                    backStackEntry.savedStateHandle,
-                                    appContainer.recipesRepository,
-                                ).create()
-                            } ?: error("AppContainer is null")
-                        }
-
+                    ) {
+                        val recipesViewModel = hiltViewModel<RecipesViewModel>()
                         RecipesScreen(
                             onRecipeClick = { recipeId, _ ->
                                 navController.navigate(
@@ -114,19 +102,8 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
                         arguments = listOf(
                             navArgument("recipeId") { type = NavType.IntType },
                         )
-                    ) { backStackEntry ->
-                        val application =
-                            LocalContext.current.applicationContext as? RecipeApplication
-                        val appContainer = application?.appContainer
-                        val recipeDetailsViewModel = remember(backStackEntry) {
-                            appContainer?.let {
-                                RecipeDetailsViewModelFactory(
-                                    application,
-                                    backStackEntry.savedStateHandle,
-                                    appContainer.recipesRepository,
-                                ).create()
-                            } ?: error("AppContainer is null")
-                        }
+                    ) {
+                        val recipeDetailsViewModel = hiltViewModel<RecipeDetailsViewModel>()
                         RecipeDetailsScreen(
                             modifier = Modifier.padding(paddingValues),
                             viewModel = recipeDetailsViewModel,

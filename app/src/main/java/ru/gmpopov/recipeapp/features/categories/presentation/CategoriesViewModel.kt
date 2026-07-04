@@ -1,5 +1,6 @@
 package ru.gmpopov.recipeapp.features.categories.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,6 +51,7 @@ class CategoriesViewModel @Inject constructor(private val recipeRepository: Reci
                         error = "Ошибка загрузки данных"
                     )
                 }
+                Log.e("!!!!", "ERRRORRRR")
             }
         }
     }
