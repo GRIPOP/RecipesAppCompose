@@ -51,7 +51,6 @@ class CategoriesViewModel @Inject constructor(private val recipeRepository: Reci
                         error = "Ошибка загрузки данных"
                     )
                 }
-                Log.e("!!!!", "ERRRORRRR")
             }
         }
     }

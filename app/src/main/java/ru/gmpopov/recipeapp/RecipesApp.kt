@@ -33,10 +33,12 @@ fun RecipesApp(deepLinkIntent: Intent? = null) {
             deepLinkIntent?.data?.let { uri ->
                 val recipeId: Int? = when (uri.scheme) {
                     DEEP_LINK_SCHEME ->
-                        if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+                        if (uri.host == "recipe") uri.pathSegments.getOrNull(0)
+                            ?.toIntOrNull() else null
 
                     "https", "http" ->
-                        if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+                        if (uri.pathSegments.getOrNull(0) == "recipe") uri.pathSegments.getOrNull(1)
+                            ?.toIntOrNull() else null
 
                     else -> null
                 }
