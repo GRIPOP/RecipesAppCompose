@@ -27,7 +27,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun recipesApiService(): RecipesApiService {
+    fun provideRecipesApiService(): RecipesApiService {
         val contentType: MediaType = "application/json".toMediaType()
 
         val okHttpClient = OkHttpClient.Builder()
@@ -61,8 +61,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun recipesDatabase(@ApplicationContext context: Context): RecipesDatabase {
+    fun provideRecipesDatabase(@ApplicationContext context: Context): RecipesDatabase {
         return RecipesDatabase.buildDatabase(context)
     }
-
 }
