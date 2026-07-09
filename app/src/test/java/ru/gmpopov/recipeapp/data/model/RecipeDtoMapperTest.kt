@@ -15,7 +15,7 @@ class RecipeDtoMapperTest {
         val result = recipeDto.toUiModel()
         assertEquals(1, result.id)
         assertEquals("Бургер", result.title)
-        assertEquals("burger.png", result.imageUrl)
+        assertEquals("${IMAGES_BASE_URL}burger.png", result.imageUrl)
     }
 
     @Test
