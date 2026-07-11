@@ -10,6 +10,7 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import okio.IOException
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +25,7 @@ import ru.gmpopov.recipeapp.data.database.entity.RecipeEntity
 class RecipesRepositoryTest {
 
     private val apiService = mockk<RecipesApiService>()
-    private val database = mockk<RecipesDatabase>()
+    private val database = mockk<RecipesDatabase>(relaxed = true)
     private val categoryDao = mockk<CategoryDao>()
     private val recipeDao = mockk<RecipeDao>()
 
@@ -79,7 +80,7 @@ class RecipesRepositoryTest {
             )
         )
 
-        coEvery { apiService.getCategories() } throws (RuntimeException("Network error"))
+        coEvery { apiService.getCategories() } throws (IOException())
         coEvery { categoryDao.insertOrUpdateCategory(any()) } just Runs
 
         repository.getCategories().test {
