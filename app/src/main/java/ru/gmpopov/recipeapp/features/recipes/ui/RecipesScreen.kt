@@ -14,12 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.SavedStateHandle
+import androidx.compose.ui.platform.testTag
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.di.RecipeApplication
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
+import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipesUiState
 
 @Composable
 fun RecipesScreen(
@@ -30,6 +29,15 @@ fun RecipesScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
+    RecipesContent(uiState = uiState, onRecipeClick = onRecipeClick, modifier = modifier)
+}
+
+@Composable
+fun RecipesContent(
+    uiState: RecipesUiState,
+    onRecipeClick: (Int, RecipeUiModel) -> Unit,
+    modifier: Modifier
+) {
     when {
         uiState.isLoading ->
             Box(
@@ -37,7 +45,10 @@ fun RecipesScreen(
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .testTag("loading_indicator")
+                )
             }
 
         uiState.error != null ->
@@ -47,8 +58,10 @@ fun RecipesScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = uiState.error ?: "",
+                    text = uiState.error,
                     color = Color.Red,
+                    modifier = Modifier
+                        .testTag("error_message")
                 )
             }
 
@@ -59,7 +72,9 @@ fun RecipesScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Список рецептов пуст"
+                    text = "Список рецептов пуст",
+                    modifier = Modifier
+                        .testTag("empty_state")
                 )
             }
 

@@ -16,12 +16,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.gmpopov.recipeapp.R
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
 import ru.gmpopov.recipeapp.core.ui.theme.Dimens
 import ru.gmpopov.recipeapp.features.categories.presentation.CategoriesViewModel
+import ru.gmpopov.recipeapp.features.categories.presentation.model.CategoriesUiState
 
 @Composable
 fun CategoriesScreen(
@@ -31,6 +33,16 @@ fun CategoriesScreen(
     val categoryViewModel = hiltViewModel<CategoriesViewModel>()
 
     val uiState by categoryViewModel.uiState.collectAsState()
+
+    CategoriesContent(uiState = uiState, onCategoryClick = onCategoryClick, modifier = modifier)
+}
+
+@Composable
+fun CategoriesContent(
+    uiState: CategoriesUiState,
+    onCategoryClick: (Int, String, String) -> Unit,
+    modifier: Modifier
+) {
 
     Column(
         modifier = modifier
@@ -49,7 +61,10 @@ fun CategoriesScreen(
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .testTag("loading_indicator")
+                    )
                 }
 
             uiState.error != null ->
@@ -59,8 +74,10 @@ fun CategoriesScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = uiState.error ?: "",
+                        text = uiState.error,
                         color = Color.Red,
+                        modifier = Modifier
+                            .testTag("error_message")
                     )
                 }
 
