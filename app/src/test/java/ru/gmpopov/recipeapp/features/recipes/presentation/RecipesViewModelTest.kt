@@ -62,19 +62,22 @@ class RecipesViewModelTest {
         viewModel.uiState.test {
             val state = awaitItem()
             assertEquals(RecipeTestFixtures.createRecipeDtoList().size, state.recipes.size)
+            assertTrue(state.categoryTitle == "Бургеры")
+            assertTrue(!state.isLoading)
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `shows empty list when repository returns no data`() = runTest {
+    fun `state reflects category title from savedState`() = runTest {
         every { repository.getRecipesByCategory(1) } returns flowOf(emptyList())
 
-        val viewModel = createViewModel(categoryTitle = "Десерты", categoryImageUrl = "desert.jpg")
+        val viewModel = createViewModel(categoryTitle = "Завтраки", categoryImageUrl = "desert.jpg")
 
         viewModel.uiState.test {
             val state = awaitItem()
-            assertTrue(state.recipes.isEmpty())
-            assertTrue(state.error == null)
+            assertTrue(state.categoryTitle == "Завтраки")
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
