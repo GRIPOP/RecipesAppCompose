@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import ru.gmpopov.recipeapp.data.repository.RecipesRepository
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipesUiState
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.toUiModel
+import java.net.URLDecoder
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,8 +28,8 @@ class RecipesViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(
         RecipesUiState(
-            categoryTitle = Uri.decode(savedStateHandle["categoryTitle"] ?: ""),
-            categoryImageUrl = Uri.decode(savedStateHandle["categoryImageUrl"] ?: ""),
+            categoryTitle = URLDecoder.decode(savedStateHandle["categoryTitle"] ?: "", "UTF-8"),
+            categoryImageUrl = URLDecoder.decode(savedStateHandle["categoryImageUrl"] ?: "", "UTF-8"),
             recipes = emptyList(),
         )
     )
