@@ -31,7 +31,8 @@ class CategoriesContentTest {
                             "burger.jpg"
                         )
                     )
-                ), { _, _, _ -> }, Modifier
+                ), { _, _, _ -> },
+                modifier = Modifier
             )
         }
 
@@ -54,7 +55,8 @@ class CategoriesContentTest {
                             "burger.jpg"
                         )
                     )
-                ), onCategoryClick = { id, _, _ -> clickedId = id }, Modifier
+                ), onCategoryClick = { id, _, _ -> clickedId = id },
+                modifier = Modifier
             )
         }
 
@@ -72,7 +74,8 @@ class CategoriesContentTest {
                 CategoriesUiState(
                     isLoading = true,
                 ),
-                onCategoryClick = { _, _, _ -> }, Modifier,
+                onCategoryClick = { _, _, _ -> },
+                modifier = Modifier,
             )
         }
 
