@@ -2,17 +2,19 @@ package ru.gmpopov.recipeapp.features.recipes.ui
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.IngredientUiModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipesUiState
 
-class RecipesContentTest {
+@RunWith(AndroidJUnit4::class)
+class RecipesScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()

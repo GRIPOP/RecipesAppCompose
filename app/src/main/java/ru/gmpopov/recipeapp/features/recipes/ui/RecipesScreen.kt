@@ -36,12 +36,12 @@ fun RecipesScreen(
 fun RecipesContent(
     uiState: RecipesUiState,
     onRecipeClick: (Int, RecipeUiModel) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     when {
         uiState.isLoading ->
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
@@ -53,7 +53,7 @@ fun RecipesContent(
 
         uiState.error != null ->
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
@@ -67,7 +67,7 @@ fun RecipesContent(
 
         uiState.isEmptyRecipes ->
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
@@ -80,7 +80,8 @@ fun RecipesContent(
 
         else -> {
             Column(
-                modifier = modifier,
+                modifier = modifier
+                    .fillMaxSize(),
             ) {
                 ScreenHeader(
                     imageUrl = uiState.categoryImageUrl,
