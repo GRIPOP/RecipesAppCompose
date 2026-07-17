@@ -92,7 +92,7 @@ fun RecipesContent(
 
                 LazyColumn(
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(1f),
                 ) {
                     items(uiState.recipes, key = { it.id }) { recipe ->
                         RecipeItem(
