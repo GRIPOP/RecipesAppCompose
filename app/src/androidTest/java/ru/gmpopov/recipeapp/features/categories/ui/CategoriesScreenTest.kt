@@ -21,7 +21,7 @@ class CategoriesScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun displayCategories() {
+    fun displaysCategories() {
         composeTestRule.setContent {
             CategoriesContent(
                 CategoriesUiState(
@@ -30,7 +30,7 @@ class CategoriesScreenTest {
                             id = 1,
                             title = "Бургеры",
                             description = "Бургеры",
-                            "burger.jpg"
+                            imageUrl = "burger.jpg"
                         )
                     )
                 ), { _, _, _ -> },
@@ -54,7 +54,7 @@ class CategoriesScreenTest {
                             id = 1,
                             title = "Бургеры",
                             description = "Бургеры",
-                            "burger.jpg"
+                            imageUrl = "burger.jpg"
                         )
                     )
                 ), onCategoryClick = { id, _, _ -> clickedId = id },
