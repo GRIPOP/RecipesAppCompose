@@ -3,6 +3,7 @@ package ru.gmpopov.recipeapp.data.repository
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import ru.gmpopov.recipeapp.core.network.api.RecipesApiService
@@ -23,6 +24,8 @@ class RecipesRepositoryImpl @Inject constructor(
 
     override fun getCategories(): Flow<List<CategoryDto>> = flow {
         try {
+            val cacheCategory = categoryDao.getAllCategories().first()
+            emit(cacheCategory.map { categoryEntity -> categoryEntity.toDto() })
             val categories = apiService.getCategories().map { it.toEntity() }
             categoryDao.insertOrUpdateCategory(categories)
         } catch (e: Exception) {
@@ -33,6 +36,8 @@ class RecipesRepositoryImpl @Inject constructor(
 
     override fun getRecipesByCategory(categoryId: Int): Flow<List<RecipeDto>> = flow {
         try {
+            val cacheRecipe = recipeDao.getAllRecipes(categoryId).first()
+            emit(cacheRecipe.map { recipeEntity -> recipeEntity.toDto() })
             val recipes =
                 apiService.getRecipesByCategory(categoryId).map { it.toEntity(categoryId) }
             recipeDao.insertRecipes(recipes)
@@ -44,6 +49,8 @@ class RecipesRepositoryImpl @Inject constructor(
 
     override fun getRecipe(recipeId: Int): Flow<RecipeDto?> = flow {
         try {
+            val cacheRecipe = recipeDao.getRecipe(recipeId).first()
+            emit(cacheRecipe?.toDto())
             apiService.getRecipe(recipeId).let { recipe ->
                 recipeDao.insertRecipes(listOf(recipe.toEntity(recipeId)))
             }

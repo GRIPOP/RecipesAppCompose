@@ -14,12 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.SavedStateHandle
+import androidx.compose.ui.platform.testTag
 import ru.gmpopov.recipeapp.core.ui.ScreenHeader
-import ru.gmpopov.recipeapp.di.RecipeApplication
 import ru.gmpopov.recipeapp.features.recipes.presentation.RecipesViewModel
 import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipeUiModel
+import ru.gmpopov.recipeapp.features.recipes.presentation.model.RecipesUiState
 
 @Composable
 fun RecipesScreen(
@@ -30,42 +29,59 @@ fun RecipesScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
+    RecipesContent(uiState = uiState, onRecipeClick = onRecipeClick, modifier = modifier)
+}
+
+@Composable
+fun RecipesContent(
+    uiState: RecipesUiState,
+    onRecipeClick: (Int, RecipeUiModel) -> Unit,
+    modifier: Modifier,
+) {
     when {
         uiState.isLoading ->
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .testTag("loading_indicator")
+                )
             }
 
         uiState.error != null ->
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = uiState.error ?: "",
+                    text = uiState.error,
                     color = Color.Red,
+                    modifier = Modifier
+                        .testTag("error_message")
                 )
             }
 
         uiState.isEmptyRecipes ->
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Список рецептов пуст"
+                    text = "Список рецептов пуст",
+                    modifier = Modifier
+                        .testTag("empty_state")
                 )
             }
 
         else -> {
             Column(
-                modifier = modifier,
+                modifier = modifier
+                    .fillMaxSize(),
             ) {
                 ScreenHeader(
                     imageUrl = uiState.categoryImageUrl,
@@ -76,7 +92,7 @@ fun RecipesScreen(
 
                 LazyColumn(
                     modifier = Modifier
-                        .weight(1f)
+                        .weight(1f),
                 ) {
                     items(uiState.recipes, key = { it.id }) { recipe ->
                         RecipeItem(
