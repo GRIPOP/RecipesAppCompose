@@ -44,8 +44,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+        }
+    }
+
     testOptions {
-        unitTests { isReturnDefaultValues = true } }
+        unitTests { isReturnDefaultValues = true }
+    }
 }
 
 dependencies {
@@ -87,7 +96,6 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     // Unit тесты (JVM)
-    testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
@@ -95,6 +103,7 @@ dependencies {
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.turbine)
     kspAndroidTest(libs.hilt.compiler)
 }
