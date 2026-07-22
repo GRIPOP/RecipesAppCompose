@@ -42,7 +42,8 @@ fun RecipesContent(
         uiState.isLoading ->
             Box(
                 modifier = modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .testTag("recipes_screen"),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator(
@@ -54,7 +55,8 @@ fun RecipesContent(
         uiState.error != null ->
             Box(
                 modifier = modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .testTag("recipes_screen"),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -68,7 +70,9 @@ fun RecipesContent(
         uiState.isEmptyRecipes ->
             Box(
                 modifier = modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .testTag("recipes_screen"),
+
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -81,7 +85,8 @@ fun RecipesContent(
         else -> {
             Column(
                 modifier = modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .testTag("recipes_screen"),
             ) {
                 ScreenHeader(
                     imageUrl = uiState.categoryImageUrl,

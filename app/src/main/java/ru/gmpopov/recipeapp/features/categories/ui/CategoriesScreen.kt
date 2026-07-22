@@ -46,6 +46,7 @@ fun CategoriesContent(
 
     Column(
         modifier = modifier
+            .testTag("categories_screen")
     ) {
         ScreenHeader(
             painterResource(R.drawable.bcg_categories),
@@ -87,6 +88,8 @@ fun CategoriesContent(
                     contentPadding = PaddingValues(Dimens.PaddingMain),
                     horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
                     verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMain),
+                    modifier = modifier
+                        .testTag("categories_grid")
                 ) {
                     items(uiState.categories, key = { it.id }) { category ->
                         CategoryItem(
