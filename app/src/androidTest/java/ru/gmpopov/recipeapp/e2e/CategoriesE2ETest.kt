@@ -1,14 +1,14 @@
-package ru.gmpopov.recipeapp.features.categories
+package ru.gmpopov.recipeapp.e2e
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kaspersky.components.composesupport.config.withComposeSupport
 import com.kaspersky.kaspresso.kaspresso.Kaspresso
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
+import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.mockk.coEvery
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -19,7 +19,8 @@ import ru.gmpopov.recipeapp.MainActivity
 import ru.gmpopov.recipeapp.core.network.api.RecipesApiService
 import ru.gmpopov.recipeapp.data.database.RecipesDatabase
 import ru.gmpopov.recipeapp.data.database.entity.CategoryEntity
-import ru.gmpopov.recipeapp.features.recipes.RecipesComposeScreen
+import ru.gmpopov.recipeapp.screen.CategoriesComposeScreen
+import ru.gmpopov.recipeapp.screen.RecipesComposeScreen
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -63,7 +64,7 @@ class CategoriesE2ETest() : TestCase(
     @Test
     fun categoriesScreenLoadsContent() = run {
         step("Открыть приложение и проверить экран категорий") {
-            onComposeScreen<CategoriesComposeScreen>(composeTestRule) {
+            ComposeScreen.Companion.onComposeScreen<CategoriesComposeScreen>(composeTestRule) {
                 categoriesGrid { assertIsDisplayed() }
             }
         }
@@ -72,19 +73,19 @@ class CategoriesE2ETest() : TestCase(
     @Test
     fun clickingCategoryOpensRecipesScreen() = run {
         step("Дождаться загрузки категорий") {
-            onComposeScreen<CategoriesComposeScreen>(composeTestRule) {
-                categoriesGrid { isDisplayed() }
+            ComposeScreen.Companion.onComposeScreen<CategoriesComposeScreen>(composeTestRule) {
+                categoriesGrid { ViewMatchers.isDisplayed() }
             }
         }
 
         step("Нажать на первую категорию") {
-            onComposeScreen<CategoriesComposeScreen>(composeTestRule) {
+            ComposeScreen.Companion.onComposeScreen<CategoriesComposeScreen>(composeTestRule) {
                 categoryItem { performClick() }
             }
         }
 
         step("Проверить, что открылся экран рецептов") {
-            onComposeScreen<RecipesComposeScreen>(composeTestRule) {
+            ComposeScreen.Companion.onComposeScreen<RecipesComposeScreen>(composeTestRule) {
                 emptyState { assertIsDisplayed() }
             }
         }

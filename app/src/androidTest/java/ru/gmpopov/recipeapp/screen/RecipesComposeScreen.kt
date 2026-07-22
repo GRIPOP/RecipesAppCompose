@@ -1,4 +1,4 @@
-package ru.gmpopov.recipeapp.features.recipes
+package ru.gmpopov.recipeapp.screen
 
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import io.github.kakaocup.compose.node.element.ComposeScreen
