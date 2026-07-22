@@ -83,6 +83,7 @@ class RecipesDaoTest {
         val recipe = recipeDao.getAllRecipes(1).first()
 
         assertEquals("Бургер с грибами", recipe[0].title)
+        assertTrue(recipe.size == 1)
     }
 
     @Test
