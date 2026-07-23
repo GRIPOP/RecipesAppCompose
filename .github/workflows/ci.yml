@@ -21,7 +21,7 @@ jobs:
       - name: Gradle setup
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Make gradlew executable
+      - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Complete license
@@ -62,6 +62,6 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          token: \${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           fail_ci_if_error: false

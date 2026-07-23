@@ -123,7 +123,7 @@ jacoco {
     toolVersion = "0.8.12"
 }
 
-tasks.register("jacocoTestReport", JacocoReport::class) {
+tasks.register<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
 
     reports {
